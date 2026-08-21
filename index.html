@@ -129,21 +129,21 @@ img{ max-width:100%; }
 .skip-link:focus{ left:0; }
 
 /* ============ ANIMACOES ============ */
-@keyframes meshShift{ 0%,100%{transform:translate(0,0) scale(1);} 33%{transform:translate(6%,-4%) scale(1.1);} 66%{transform:translate(-5%,5%) scale(1.05);} }
-@keyframes meshShift2{ 0%,100%{transform:translate(0,0) scale(1.1);} 50%{transform:translate(-8%,6%) scale(1.2);} }
 @keyframes floatParticle{ 0%{transform:translateY(0) translateX(0); opacity:0;} 10%{opacity:.6;} 90%{opacity:.6;} 100%{transform:translateY(-120vh) translateX(40px); opacity:0;} }
 @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
 @keyframes wheelSpin{ to{transform:rotate(360deg);} }
 @keyframes smoke{ 0%{transform:translateY(0) scale(1); opacity:.9;} 100%{transform:translateY(-14px) scale(1.6); opacity:0;} }
 @keyframes planeTake{ 0%,100%{transform:translate(0,0) rotate(-8deg);} 50%{transform:translate(6px,-6px) rotate(-14deg);} }
 @keyframes heartBeat{ 0%,100%{transform:scale(1);} 30%{transform:scale(1.15);} 45%{transform:scale(.95);} 60%{transform:scale(1.1);} }
+/* blocos fora da viewport param de animar (rodas, fumaça, avião, marquee) */
+[data-anim="off"], [data-anim="off"] *{ animation-play-state:paused !important; }
 .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
 .reveal.in{ opacity:1; transform:none; }
 
 /* ============ LAYOUT ============ */
 .wrap{ max-width:1200px; margin:0 auto; }
 .section{ padding:120px 40px; background:var(--bg); position:relative; }
-.eyebrow{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--brand); text-transform:uppercase; letter-spacing:.24em; margin-bottom:16px; }
+.eyebrow{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.24em; margin-bottom:16px; }
 .h2{ font-family:'Outfit',sans-serif; font-weight:800; font-size:clamp(32px,4.6vw,60px); line-height:1.03; letter-spacing:-.03em; margin:0; }
 .sec-head{ display:flex; align-items:end; justify-content:space-between; gap:40px; margin-bottom:56px; flex-wrap:wrap; }
 .sec-note{ max-width:340px; color:var(--muted); font-size:15.5px; line-height:1.6; }
@@ -153,20 +153,14 @@ img{ max-width:100%; }
   position:fixed; top:0; left:0; right:0; z-index:100;
   padding:26px 40px; display:flex; align-items:center; justify-content:center;
   border-bottom:1px solid transparent; color:var(--on-dark);
-  transition:background .35s, backdrop-filter .35s, border-color .35s, padding .35s, color .35s;
+  transition:background .35s, border-color .35s, padding .35s, color .35s, box-shadow .35s;
 }
 .header.scrolled{
   background:var(--bg);
   border-color:var(--border);
   padding:14px 40px;
   color:var(--text);
-}
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)){
-  .header.scrolled{
-    background:color-mix(in srgb, var(--bg) 85%, transparent);
-    backdrop-filter:blur(18px) saturate(1.4);
-    -webkit-backdrop-filter:blur(18px) saturate(1.4);
-  }
+  box-shadow:0 8px 24px -18px var(--shadow);
 }
 .hdr-logo{ position:absolute; left:40px; display:flex; align-items:center; opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s; }
 .header.scrolled .hdr-logo{ opacity:1; visibility:visible; }
@@ -214,12 +208,14 @@ img{ max-width:100%; }
 .hero{
   position:relative; min-height:100svh; padding:140px 40px 96px;
   display:flex; align-items:center; overflow:hidden;
-  background:var(--navy-deep); color:#fff;
+  color:#fff;
+  /* fallback estático: aparece só se o vídeo não carregar */
+  background:
+    radial-gradient(circle at 18% 22%, rgba(27,42,74,.85), transparent 55%),
+    radial-gradient(circle at 82% 28%, rgba(245,166,35,.30), transparent 55%),
+    radial-gradient(circle at 45% 95%, rgba(15,76,117,.65), transparent 55%),
+    var(--navy-deep);
 }
-/* malha animada: fica atrás do vídeo e aparece se ele falhar ou não carregar */
-.hero-mesh{ position:absolute; inset:-20%; z-index:0; filter:blur(80px); opacity:.9; pointer-events:none; }
-.hero-mesh i{ position:absolute; border-radius:50%; display:block; }
-
 /* vídeo de fundo, ocupando a seção inteira */
 .hero-video{ position:absolute; inset:0; z-index:1; overflow:hidden; }
 .hero-video video{
@@ -254,8 +250,8 @@ img{ max-width:100%; }
 }
 .hero-badge{
   display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px;
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
-  font-size:13px; margin-bottom:28px; backdrop-filter:blur(10px);
+  background:rgba(11,18,37,.55); border:1px solid rgba(255,255,255,.22);
+  font-size:13px; margin-bottom:28px;
 }
 .dot-live{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 12px var(--green); flex-shrink:0; }
 .h1{ font-family:'Outfit',sans-serif; font-weight:800; font-size:clamp(40px,6.4vw,84px); line-height:1; letter-spacing:-.035em; margin:0 0 24px; }
@@ -276,8 +272,8 @@ img{ max-width:100%; }
 }
 .btn-ghost:hover{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.5); }
 .float-chip{
-  padding:10px 16px; background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  padding:10px 16px; background:rgba(11,18,37,.60);
+  border:1px solid rgba(255,255,255,.22);
   border-radius:14px; font-size:12.5px; color:#fff; display:inline-flex; align-items:center; gap:8px;
   white-space:nowrap;
 }
@@ -289,11 +285,30 @@ img{ max-width:100%; }
 .scroll-hint i{ width:1px; height:28px; background:linear-gradient(to bottom,rgba(255,255,255,.6),transparent); display:block; }
 
 /* ============ STATS ============ */
-.stats{ padding:80px 40px; background:var(--bg); border-bottom:1px solid var(--border); }
-.stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:40px; }
-.stat-ico{ width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:22px; }
-.stat-num{ font-family:'Outfit',sans-serif; font-weight:800; font-size:clamp(38px,4.4vw,56px); line-height:1; color:var(--text); letter-spacing:-.03em; }
-.stat-label{ font-size:13.5px; color:var(--muted); margin-top:10px; }
+.stats{ padding:72px 40px; background:var(--bg); }
+.stats-panel{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  background:var(--surface); border:1px solid var(--border); border-radius:24px;
+  overflow:hidden; box-shadow:0 30px 60px -50px var(--shadow);
+}
+.stat{ padding:34px 30px; display:flex; flex-direction:column; border-right:1px solid var(--border); }
+.stat:last-child{ border-right:none; }
+.stat-head{ display:flex; align-items:center; gap:11px; margin-bottom:20px; }
+.stat-ico{
+  width:36px; height:36px; border-radius:10px; flex-shrink:0;
+  background:rgba(245,166,35,.16); color:#B87514;
+  display:flex; align-items:center; justify-content:center;
+}
+[data-theme="dark"] .stat-ico{ background:rgba(245,166,35,.18); color:var(--brand); }
+.stat-label{
+  font-size:11.5px; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.12em; line-height:1.35; font-weight:600;
+}
+.stat-num{
+  font-family:'Outfit',sans-serif; font-weight:800;
+  font-size:clamp(34px,3.4vw,46px); line-height:1;
+  color:var(--text); letter-spacing:-.035em; margin-top:auto;
+}
 
 /* ============ BENTO / SERVICOS ============ */
 .bento{ display:grid; grid-template-columns:repeat(12,1fr); grid-auto-rows:minmax(140px,auto); gap:14px; }
@@ -315,35 +330,47 @@ img{ max-width:100%; }
 .svc-desc{ margin:0; font-size:13.5px; color:var(--muted); line-height:1.45; }
 .svc-desc-light{ margin:0; font-size:13.5px; color:rgba(255,255,255,.78); line-height:1.45; }
 .svc-ico-box{ width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.svc-ico-glass{ width:64px; height:64px; border-radius:16px; background:rgba(255,255,255,.08); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.14); }
+.svc-ico-glass{ width:64px; height:64px; border-radius:16px; background:rgba(255,255,255,.10); display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.16); }
 .cta-inline{ display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--brand-2); }
 
 /* ============ PILARES ============ */
 .pillars{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
-.pillar-card{ position:relative; padding:32px; border-radius:22px; overflow:hidden; min-height:280px; display:flex; flex-direction:column; justify-content:space-between; transition:transform .3s, box-shadow .3s; }
-.pillar-card:hover{ transform:translateY(-3px); box-shadow:0 24px 44px -26px var(--shadow); }
-.pc-light{ background:var(--surface); border:1px solid var(--border); color:var(--text); }
-.pc-navy{ background:#1B2A4A; color:#fff; }
-[data-theme="dark"] .pc-navy{ background:#22355E; }
-.pc-amber{ background:#F5A623; color:#1A1A2E; }
-.pc-num{ position:absolute; top:24px; right:24px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.15em; color:var(--brand); }
-.pc-navy .pc-num{ color:#F5A623; }
-.pc-amber .pc-num{ color:#1B2A4A; }
-.pc-ico{ width:54px; height:54px; border-radius:14px; display:flex; align-items:center; justify-content:center; }
-.pc-title{ font-family:'Outfit',sans-serif; font-weight:700; font-size:22px; margin:0 0 10px; letter-spacing:-.01em; }
-.pc-text{ margin:0; font-size:14.5px; line-height:1.55; color:var(--muted); }
-.pc-navy .pc-text{ color:rgba(255,255,255,.8); }
-.pc-amber .pc-text{ color:rgba(26,26,46,.82); }
+.pillar-card{
+  position:relative; padding:34px 30px; border-radius:22px; overflow:hidden;
+  background:var(--surface); border:1px solid var(--border); color:var(--text);
+  min-height:260px; display:flex; flex-direction:column;
+  transition:transform .3s, box-shadow .3s, border-color .3s;
+}
+.pillar-card::before{
+  content:''; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,#F5A623,#FFBE0B);
+  transform:scaleX(0); transform-origin:left; transition:transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.pillar-card:hover{ transform:translateY(-4px); box-shadow:0 26px 48px -30px var(--shadow); border-color:rgba(245,166,35,.35); }
+.pillar-card:hover::before{ transform:scaleX(1); }
+.pc-num{
+  position:absolute; right:20px; top:2px;
+  font-family:'Outfit',sans-serif; font-weight:800; font-size:78px; line-height:1;
+  letter-spacing:-.05em; color:var(--text); opacity:.055; pointer-events:none;
+}
+.pc-ico{
+  width:52px; height:52px; border-radius:14px; flex-shrink:0;
+  background:var(--navy); color:var(--brand-2);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:24px;
+}
+.pc-title{ font-family:'Outfit',sans-serif; font-weight:700; font-size:21px; margin:0 0 10px; letter-spacing:-.015em; }
+.pc-text{ margin:0; font-size:14.5px; line-height:1.6; color:var(--muted); }
 
 /* ============ MARQUEE PARCEIROS ============ */
-.marquee{ position:relative; background:var(--navy-deep); padding:44px 0 40px; overflow:hidden; }
-.marquee-label{ position:absolute; top:14px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--brand); text-transform:uppercase; letter-spacing:.28em; z-index:4; }
+.marquee{ position:relative; background:var(--navy-deep); padding:44px 0 40px; overflow:hidden; contain:paint; }
+.marquee-label{ position:absolute; top:14px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:rgba(237,235,230,.55); text-transform:uppercase; letter-spacing:.28em; z-index:4; }
 .marquee-label.l{ left:40px; }
 .marquee-label.r{ right:40px; }
 .marquee::before, .marquee::after{ content:''; position:absolute; top:0; bottom:0; width:120px; z-index:3; pointer-events:none; }
 .marquee::before{ left:0; background:linear-gradient(90deg,#0B1225,transparent); }
 .marquee::after{ right:0; background:linear-gradient(270deg,#0B1225,transparent); }
-.marquee-track{ display:flex; gap:22px; width:max-content; animation:marquee 55s linear infinite; align-items:center; padding-top:20px; }
+.marquee-track{ display:flex; gap:22px; width:max-content; animation:marquee 55s linear infinite; align-items:center; padding-top:20px; will-change:transform; }
 .marquee:hover .marquee-track{ animation-play-state:paused; }
 .logo-chip{
   flex-shrink:0; background:#fff; border-radius:16px;
@@ -417,7 +444,7 @@ img{ max-width:100%; }
 .map-sec{ background:var(--navy-deep); }
 .map-head{ max-width:1200px; margin:0 auto; padding:80px 40px 40px; }
 .map-title-row{ display:flex; align-items:end; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:32px; }
-.map-frame{ width:100%; height:460px; position:relative; overflow:hidden; filter:grayscale(.25) contrast(1.05); }
+.map-frame{ width:100%; height:460px; position:relative; overflow:hidden; }
 .map-frame iframe{ border:0; display:block; width:100%; height:100%; }
 
 /* ============ FOOTER ============ */
@@ -427,7 +454,7 @@ img{ max-width:100%; }
 .footer-logo-plate img{ height:48px; width:auto; display:block; }
 .footer-about{ margin:0 0 20px; color:var(--on-dark-muted); font-size:14px; line-height:1.6; max-width:340px; }
 .footer-legal{ font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(237,235,230,.6); letter-spacing:.1em; }
-.footer-h{ font-family:'Outfit',sans-serif; font-weight:600; font-size:14px; margin-bottom:16px; color:var(--brand); }
+.footer-h{ font-family:'Outfit',sans-serif; font-weight:600; font-size:14px; margin-bottom:16px; color:#fff; letter-spacing:.01em; }
 .footer-links{ display:flex; flex-direction:column; gap:10px; font-size:14px; }
 .footer-links a{ color:var(--on-dark-muted); transition:color .2s; }
 .footer-links a:hover{ color:var(--brand); }
@@ -480,7 +507,10 @@ img{ max-width:100%; }
   .hero-chips{ display:none; }
   .section, .contact{ padding:88px 22px; }
   .stats{ padding:64px 22px; }
-  .stats-grid{ grid-template-columns:repeat(2,1fr); gap:32px; }
+  .stats-panel{ grid-template-columns:repeat(2,1fr); }
+  .stat{ padding:26px 22px; }
+  .stat:nth-child(2n){ border-right:none; }
+  .stat:nth-child(-n+2){ border-bottom:1px solid var(--border); }
   .contact-grid{ grid-template-columns:1fr; gap:44px; }
   .map-head{ padding:64px 22px 32px; }
   .footer{ padding:64px 22px 32px; }
@@ -516,7 +546,7 @@ img{ max-width:100%; }
   *, *::before, *::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
   .reveal{ opacity:1; transform:none; }
   .marquee-track{ animation:none; flex-wrap:wrap; width:auto; justify-content:center; }
-  .hero-mesh, #particles{ display:none; }
+  #particles{ display:none; }
   /* sem movimento: o vídeo é pausado no JS e fica só o poster */
 }
 </style>
@@ -568,13 +598,6 @@ img{ max-width:100%; }
 
 <!-- ================= HERO ================= -->
 <section id="top" class="hero">
-  <div class="hero-mesh" aria-hidden="true">
-    <i style="top:10%; left:10%; width:520px; height:520px; background:radial-gradient(circle,#1B2A4A,transparent 65%); animation:meshShift 18s ease-in-out infinite;"></i>
-    <i style="top:20%; right:5%; width:600px; height:600px; background:radial-gradient(circle,#F5A623,transparent 60%); opacity:.55; animation:meshShift2 22s ease-in-out infinite;"></i>
-    <i style="bottom:0; left:30%; width:500px; height:500px; background:radial-gradient(circle,#0F4C75,transparent 65%); animation:meshShift 26s ease-in-out infinite reverse;"></i>
-    <i style="top:50%; left:50%; width:400px; height:400px; background:radial-gradient(circle,#FFBE0B,transparent 65%); opacity:.3; animation:meshShift2 20s ease-in-out infinite;"></i>
-  </div>
-
   <div class="hero-video" aria-hidden="true">
     <video src="uploads/hero-familia.mp4" poster="uploads/hero-poster.jpg" autoplay muted loop playsinline preload="metadata" tabindex="-1"></video>
   </div>
@@ -621,34 +644,34 @@ img{ max-width:100%; }
 
 <!-- ================= STATS ================= -->
 <section id="stats" class="stats" aria-label="Números da Marca Corretora">
-  <div class="wrap stats-grid">
-    <div class="reveal">
-      <div class="stat-ico" style="background:#1B2A4A; color:#FFBE0B;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  <div class="wrap stats-panel">
+    <div class="stat reveal">
+      <div class="stat-head">
+        <span class="stat-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <span class="stat-label">anos de experiência</span>
       </div>
       <div class="stat-num">8+</div>
-      <div class="stat-label">anos de experiência</div>
     </div>
-    <div class="reveal">
-      <div class="stat-ico" style="background:#F5A623; color:#1A1A2E;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div class="stat reveal">
+      <div class="stat-head">
+        <span class="stat-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <span class="stat-label">seguradoras parceiras</span>
       </div>
       <div class="stat-num">17</div>
-      <div class="stat-label">seguradoras parceiras</div>
     </div>
-    <div class="reveal">
-      <div class="stat-ico" style="background:#2ECC71; color:#0B2A16;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    <div class="stat reveal">
+      <div class="stat-head">
+        <span class="stat-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+        <span class="stat-label">em capital segurado</span>
       </div>
       <div class="stat-num">R$ 150M+</div>
-      <div class="stat-label">em capital segurado</div>
     </div>
-    <div class="reveal">
-      <div class="stat-ico" style="background:#1B2A4A; color:#FFBE0B;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <div class="stat reveal">
+      <div class="stat-head">
+        <span class="stat-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+        <span class="stat-label">clientes atendidos</span>
       </div>
       <div class="stat-num">1000+</div>
-      <div class="stat-label">clientes atendidos</div>
     </div>
   </div>
 </section>
@@ -659,7 +682,7 @@ img{ max-width:100%; }
     <div class="sec-head">
       <div style="max-width:640px;">
         <p class="eyebrow reveal">/ serviços</p>
-        <h2 class="h2 reveal">Proteção sob medida<br>para cada <em style="font-style:italic; font-weight:500; color:#F5A623;">momento</em> da sua vida.</h2>
+        <h2 class="h2 reveal">Proteção sob medida<br>para cada momento da sua vida.</h2>
       </div>
       <p class="sec-note reveal">23 modalidades, 17 seguradoras, uma corretora. Cotamos, comparamos e recomendamos o que faz sentido pra você.</p>
     </div>
@@ -761,45 +784,29 @@ img{ max-width:100%; }
     <h2 class="h2 reveal" style="margin-bottom:60px; max-width:820px;">Quatro pilares que sustentam cada apólice.</h2>
 
     <div class="pillars">
-      <div class="pillar-card pc-light reveal">
-        <span class="pc-num">01</span>
-        <div class="pc-ico" style="background:#1B2A4A;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><polyline points="9 12 11 14 15 10"/></svg>
-        </div>
-        <div>
-          <h3 class="pc-title">Ética &amp; Transparência</h3>
-          <p class="pc-text">Integridade e credibilidade profissional em cada apólice apresentada.</p>
-        </div>
+      <div class="pillar-card reveal">
+        <span class="pc-num" aria-hidden="true">01</span>
+        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+        <h3 class="pc-title">Ética &amp; Transparência</h3>
+        <p class="pc-text">Integridade e credibilidade profissional em cada apólice apresentada.</p>
       </div>
-      <div class="pillar-card pc-navy reveal">
-        <span class="pc-num">02</span>
-        <div class="pc-ico" style="background:#F5A623;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
-        </div>
-        <div>
-          <h3 class="pc-title">Atendimento Humano</h3>
-          <p class="pc-text">Soluções sob medida para cada perfil, com gente de verdade do outro lado.</p>
-        </div>
+      <div class="pillar-card reveal">
+        <span class="pc-num" aria-hidden="true">02</span>
+        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+        <h3 class="pc-title">Atendimento Humano</h3>
+        <p class="pc-text">Soluções sob medida para cada perfil, com gente de verdade do outro lado.</p>
       </div>
-      <div class="pillar-card pc-light reveal">
-        <span class="pc-num">03</span>
-        <div class="pc-ico" style="background:#1F9D57;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </div>
-        <div>
-          <h3 class="pc-title">Agilidade</h3>
-          <p class="pc-text">Cotação rápida nas 17 seguradoras — resposta em minutos, não dias.</p>
-        </div>
+      <div class="pillar-card reveal">
+        <span class="pc-num" aria-hidden="true">03</span>
+        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+        <h3 class="pc-title">Agilidade</h3>
+        <p class="pc-text">Cotação rápida nas 17 seguradoras — resposta em minutos, não dias.</p>
       </div>
-      <div class="pillar-card pc-amber reveal">
-        <span class="pc-num">04</span>
-        <div class="pc-ico" style="background:#1B2A4A;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </div>
-        <div>
-          <h3 class="pc-title">Cobertura Nacional</h3>
-          <p class="pc-text">Baseados em Analândia (SP), atendendo em todo território brasileiro.</p>
-        </div>
+      <div class="pillar-card reveal">
+        <span class="pc-num" aria-hidden="true">04</span>
+        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+        <h3 class="pc-title">Cobertura Nacional</h3>
+        <p class="pc-text">Baseados em Analândia (SP), atendendo em todo território brasileiro.</p>
       </div>
     </div>
   </div>
@@ -924,7 +931,7 @@ img{ max-width:100%; }
     <p class="eyebrow">/ onde estamos</p>
     <div class="map-title-row">
       <h2 class="h2" style="font-size:clamp(28px,4vw,48px); color:#fff; max-width:640px;">
-        Analândia, SP.<br><span style="color:#F5A623;">Atendimento em todo o Brasil.</span>
+        Analândia, SP.<br><span style="color:rgba(255,255,255,.72);">Atendimento em todo o Brasil.</span>
       </h2>
       <p style="color:rgba(237,235,230,.8); font-size:15px; max-width:340px; margin:0;">
         Avenida 2, nº 447 — Centro<br>Analândia — SP<br>CEP 13550-000
@@ -1068,7 +1075,7 @@ img{ max-width:100%; }
   if (!reduceMotion) {
     var particles = document.getElementById('particles');
     var frag = document.createDocumentFragment();
-    for (var i = 0; i < 22; i++) {
+    for (var i = 0; i < 14; i++) {
       var s = document.createElement('span');
       var size = 2 + Math.random() * 3;
       var color = i % 3 === 0 ? '#F5A623' : (i % 3 === 1 ? '#FFBE0B' : 'rgba(255,255,255,.6)');
@@ -1113,8 +1120,8 @@ img{ max-width:100%; }
       var img = document.createElement('img');
       img.src = 'uploads/' + p.file;
       img.alt = duplicate ? '' : p.name;
-      img.width = 594;
-      img.height = 285;
+      img.width = 267;
+      img.height = 128;
       img.loading = 'lazy';
       img.decoding = 'async';
       chip.appendChild(img);
@@ -1166,7 +1173,7 @@ img{ max-width:100%; }
 
   var smallHost = document.getElementById('svc-small-grid');
   smallHost.innerHTML = SMALL_SERVICES.map(function (s) {
-    return '<a href="#contato" class="svc-card svc-sm" data-magnetic>' +
+    return '<a href="#contato" class="svc-card svc-sm">' +
       '<span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + ICONS[s.icon] + '</svg></span>' +
       '<span class="name">' + s.name + '</span>' +
       '</a>';
@@ -1255,6 +1262,18 @@ img{ max-width:100%; }
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* ---------------- PAUSA ANIMAÇÕES FORA DA TELA ---------------- */
+  var animBlocks = [document.getElementById('servicos'), document.querySelector('.marquee')].filter(Boolean);
+  if ('IntersectionObserver' in window && animBlocks.length) {
+    animBlocks.forEach(function (el) { el.setAttribute('data-anim', 'off'); });
+    var animIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.setAttribute('data-anim', entry.isIntersecting ? 'on' : 'off');
+      });
+    }, { rootMargin: '200px 0px' });
+    animBlocks.forEach(function (el) { animIo.observe(el); });
+  }
+
   /* ---------------- NAV ATIVA ---------------- */
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-desktop a'));
   var sections = navLinks
@@ -1275,14 +1294,25 @@ img{ max-width:100%; }
   /* ---------------- BOTÕES MAGNÉTICOS ---------------- */
   if (!reduceMotion && !coarsePointer) {
     document.querySelectorAll('[data-magnetic]').forEach(function (el) {
+      var rect = null, frame = 0;
+      el.addEventListener('mouseenter', function () { rect = el.getBoundingClientRect(); });
       el.addEventListener('mousemove', function (e) {
-        var r = el.getBoundingClientRect();
-        var x = e.clientX - r.left - r.width / 2;
-        var y = e.clientY - r.top - r.height / 2;
-        el.style.transform = 'translate(' + (x * 0.16) + 'px, ' + (y * 0.24) + 'px)';
+        if (!rect || frame) return;
+        var cx = e.clientX, cy = e.clientY;
+        frame = requestAnimationFrame(function () {
+          frame = 0;
+          var x = cx - rect.left - rect.width / 2;
+          var y = cy - rect.top - rect.height / 2;
+          el.style.transform = 'translate(' + (x * 0.16) + 'px, ' + (y * 0.24) + 'px)';
+        });
       });
-      el.addEventListener('mouseleave', function () { el.style.transform = ''; });
-      el.addEventListener('blur', function () { el.style.transform = ''; });
+      function reset() {
+        if (frame) { cancelAnimationFrame(frame); frame = 0; }
+        rect = null;
+        el.style.transform = '';
+      }
+      el.addEventListener('mouseleave', reset);
+      el.addEventListener('blur', reset);
     });
   }
 
