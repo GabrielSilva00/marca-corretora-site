@@ -322,15 +322,19 @@ img{ max-width:100%; }
 .stat.in .stat-bar-fill{ transform:scaleX(1); }
 
 /* ============ BENTO / SERVICOS ============ */
-.bento{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.bento{ display:grid; grid-template-columns:repeat(12,1fr); grid-auto-rows:minmax(140px,auto); gap:14px; }
 .svc-card{
-  position:relative; overflow:hidden; border-radius:22px;
+  position:relative; overflow:hidden; border-radius:24px;
   display:flex; flex-direction:column; justify-content:flex-end;
-  min-height:320px; padding:28px; color:#fff;
+  padding:32px; color:#fff;
   background:#1B2A4A; border:1px solid transparent;
   transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .4s;
 }
 .svc-card:hover{ transform:translateY(-5px); box-shadow:0 24px 48px -16px rgba(11,18,37,.35); border-color:rgba(245,166,35,.5); }
+/* Card sizes */
+.svc-lg{ grid-column:span 6; grid-row:span 2; min-height:340px; }
+.svc-md{ grid-column:span 3; grid-row:span 2; min-height:340px; padding:26px; }
+.svc-sm-row{ grid-column:span 4; min-height:180px; padding:24px; }
 /* Background image */
 .svc-bg{ position:absolute; inset:0; z-index:0; }
 .svc-bg img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
@@ -353,8 +357,10 @@ img{ max-width:100%; }
   transition:background .3s;
 }
 .svc-card:hover .svc-ico-wrap{ background:rgba(245,166,35,.2); }
+.svc-lg .svc-card-title{ font-size:32px; }
+.svc-md .svc-card-title{ font-size:26px; }
 .svc-card-title{
-  font-family:'Outfit',sans-serif; font-weight:700; font-size:24px;
+  font-family:'Outfit',sans-serif; font-weight:700; font-size:22px;
   margin:0; letter-spacing:-.02em; line-height:1.15;
 }
 .svc-card-desc{
@@ -363,6 +369,7 @@ img{ max-width:100%; }
   transition:max-height .45s cubic-bezier(.2,.7,.2,1), opacity .35s, margin .35s;
 }
 .svc-card:hover .svc-card-desc{ max-height:120px; opacity:1; margin-top:12px; }
+.svc-lg .svc-card-desc{ font-size:15px; }
 .svc-card-cta{
   display:inline-flex; align-items:center; gap:6px;
   font-size:13px; font-weight:600; color:#F5A623;
@@ -568,7 +575,10 @@ img{ max-width:100%; }
 
 /* ============ RESPONSIVO ============ */
 @media (max-width:1024px){
-  .bento{ grid-template-columns:repeat(2,1fr); }
+  .bento{ grid-template-columns:repeat(6,1fr); }
+  .svc-lg{ grid-column:span 6; }
+  .svc-md{ grid-column:span 3; }
+  .svc-sm-row{ grid-column:span 3; }
   .svc-extras.open{ grid-template-columns:repeat(3,1fr); }
   .pillars{ grid-template-columns:repeat(2,1fr); }
 }
@@ -608,8 +618,10 @@ img{ max-width:100%; }
   .partner-card img{ height:36px; }
 }
 @media (max-width:640px){
-  .bento{ grid-template-columns:1fr 1fr; gap:12px; }
-  .svc-card{ min-height:240px; }
+  .bento{ grid-template-columns:repeat(2,1fr); gap:12px; }
+  .svc-lg, .svc-md, .svc-sm-row{ grid-column:span 2; grid-row:auto; min-height:220px; }
+  .svc-lg{ padding:26px; }
+  .svc-lg .svc-card-title{ font-size:26px; }
   .svc-extras.open{ grid-template-columns:repeat(2,1fr); gap:10px; }
   .pillars{ grid-template-columns:1fr; }
   .pillar-card{ min-height:auto; }
@@ -770,7 +782,7 @@ img{ max-width:100%; }
 
     <div class="bento">
 
-      <a href="#contato" class="svc-card reveal">
+      <a href="#contato" class="svc-card svc-lg reveal">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/auto.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -782,7 +794,7 @@ img{ max-width:100%; }
         </div>
       </a>
 
-      <a href="#contato" class="svc-card reveal">
+      <a href="#contato" class="svc-card svc-md reveal">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/vida.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -794,7 +806,7 @@ img{ max-width:100%; }
         </div>
       </a>
 
-      <a href="#contato" class="svc-card reveal">
+      <a href="#contato" class="svc-card svc-md reveal">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/residencial.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -806,7 +818,7 @@ img{ max-width:100%; }
         </div>
       </a>
 
-      <a href="#contato" class="svc-card reveal">
+      <a href="#contato" class="svc-card svc-sm-row reveal">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/empresarial.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -818,7 +830,7 @@ img{ max-width:100%; }
         </div>
       </a>
 
-      <a href="#contato" class="svc-card reveal">
+      <a href="#contato" class="svc-card svc-sm-row reveal">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/Viagem.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -830,7 +842,7 @@ img{ max-width:100%; }
         </div>
       </a>
 
-      <a href="#contato" class="svc-card reveal">
+      <a href="#contato" class="svc-card svc-sm-row reveal">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/saude.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
