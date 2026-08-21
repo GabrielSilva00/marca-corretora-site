@@ -1,0 +1,10 @@
+# Backups locais
+*.bak
+
+# Vercel
+.vercel
+
+# SO / editores
+Thumbs.db
+desktop.ini
+.DS_Store

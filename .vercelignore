@@ -1,0 +1,10 @@
+# Fontes de design e artefatos do editor — não fazem parte do site publicado
+*.dc.html
+support.js
+.thumbnail
+
+# Backups e rascunhos não referenciados pelo site
+*.bak
+uploads/pasted-*
+uploads/02.png
+uploads/03.png
