@@ -661,19 +661,28 @@ img{ max-width:100%; }
 .testi-thumb{ position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; background:#0B1225; flex-shrink:0; }
 .testi-thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(.2,.7,.2,1); }
 .testi-video:hover .testi-thumb img{ transform:scale(1.06); }
+/* o player da prévia cobre a miniatura assim que carrega; não recebe clique
+   nenhum, então o card inteiro continua sendo o botão */
+.testi-frame{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  opacity:0; transition:opacity .6s ease;
+}
+.testi-frame.on{ opacity:1; }
+.testi-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
 .testi-thumb::after{
-  content:''; position:absolute; inset:0;
+  content:''; position:absolute; inset:0; z-index:2; pointer-events:none;
   background:linear-gradient(to top, rgba(11,18,37,.5), transparent 55%);
 }
 .testi-play{
-  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:2;
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:3;
   width:62px; height:62px; border-radius:50%;
   background:var(--brand); color:#1A1A2E;
   display:flex; align-items:center; justify-content:center;
   box-shadow:0 14px 34px -12px rgba(0,0,0,.7);
-  transition:transform .3s cubic-bezier(.2,.8,.25,1), background .3s;
+  opacity:.88;
+  transition:transform .3s cubic-bezier(.2,.8,.25,1), background .3s, opacity .3s;
 }
-.testi-video:hover .testi-play{ transform:translate(-50%,-50%) scale(1.12); background:var(--brand-2); }
+.testi-video:hover .testi-play{ transform:translate(-50%,-50%) scale(1.12); background:var(--brand-2); opacity:1; }
 .testi-foot{ width:100%; padding:18px 22px 20px; display:flex; align-items:center; gap:12px; }
 .testi-foot .av{
   width:40px; height:40px; border-radius:50%; flex-shrink:0;
@@ -1604,7 +1613,9 @@ img{ max-width:100%; }
   });
 
   /* ---------------- DEPOIMENTOS EM VÍDEO ---------------- */
-  /* Miniatura local + iframe só no clique: nada do YouTube carrega antes disso. */
+  /* O card já mostra o depoimento rodando, mudo e em laço. A miniatura local fica
+     por baixo para não haver buraco enquanto o player carrega, e o player só é criado
+     quando a seção chega perto da tela. O clique abre o vídeo do início, com som. */
   var TESTI_VIDEOS = [
     { id: '78NLbwoySLs', nome: 'Luiz F.',  local: 'São Paulo, SP',    inicial: 'LF', thumb: 'uploads/depoimento-luiz.jpg' },
     { id: 'NpUMk9D1Q5g', nome: 'Julio C.', local: 'Uberaba, MG',      inicial: 'JC', thumb: 'uploads/depoimento-julio.jpg' },
@@ -1613,9 +1624,10 @@ img{ max-width:100%; }
 
   var tgrid = document.getElementById('testi-grid');
   tgrid.innerHTML = TESTI_VIDEOS.map(function (v) {
-    return '<button type="button" class="testi-video reveal" data-video="' + v.id + '" aria-label="Assistir ao depoimento de ' + escapeHtml(v.nome) + '">' +
+    return '<button type="button" class="testi-video reveal" data-video="' + v.id + '" aria-label="Assistir ao depoimento de ' + escapeHtml(v.nome) + ' com som, desde o começo">' +
       '<span class="testi-thumb">' +
         '<img src="' + v.thumb + '" alt="" width="480" height="270" loading="lazy" decoding="async">' +
+        '<span class="testi-frame" aria-hidden="true"></span>' +
         '<span class="testi-play" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
       '</span>' +
       '<span class="testi-foot">' +
@@ -1624,6 +1636,65 @@ img{ max-width:100%; }
       '</span>' +
     '</button>';
   }).join('');
+
+  /* ---------------- PRÉVIA MUDA NOS CARDS ---------------- */
+  var previas = [];
+  var economizaDados = !!(navigator.connection && navigator.connection.saveData);
+
+  function comandarPrevia(quadro, comando) {
+    if (!quadro || !quadro.contentWindow) return;
+    quadro.contentWindow.postMessage(
+      '{"event":"command","func":"' + comando + '","args":""}', '*');
+  }
+  function pausarPrevias() { previas.forEach(function (q) { comandarPrevia(q, 'pauseVideo'); }); }
+
+  // 1 = tocando. Só aí o player substitui a miniatura.
+  window.addEventListener('message', function (e) {
+    if (e.origin.indexOf('youtube') === -1 || typeof e.data !== 'string') return;
+    var dados;
+    try { dados = JSON.parse(e.data); } catch (err) { return; }
+    var estado = dados.info && dados.info.playerState;
+    if (estado !== 1) return;
+    previas.forEach(function (q) {
+      if (q.contentWindow === e.source) q.parentNode.classList.add('on');
+    });
+  });
+  function tocarPrevias() { previas.forEach(function (q) { comandarPrevia(q, 'playVideo'); }); }
+
+  function montarPrevias() {
+    if (previas.length) return;
+    TESTI_VIDEOS.forEach(function (v, i) {
+      var caixa = tgrid.querySelectorAll('.testi-frame')[i];
+      if (!caixa) return;
+      var q = document.createElement('iframe');
+      q.title = 'Prévia do depoimento de ' + v.nome;
+      q.allow = 'autoplay; encrypted-media';
+      q.setAttribute('tabindex', '-1');
+      q.setAttribute('aria-hidden', 'true');
+      // loop de um vídeo só exige playlist com o próprio id
+      q.src = 'https://www.youtube-nocookie.com/embed/' + v.id +
+        '?autoplay=1&mute=1&loop=1&playlist=' + v.id +
+        '&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&playsinline=1' +
+        '&iv_load_policy=3&enablejsapi=1';
+      q.addEventListener('load', function () {
+        // handshake da API do YouTube: sem isso o player não manda eventos
+        comandarPrevia(q, 'playVideo');
+        q.contentWindow.postMessage('{"event":"listening","id":' + i + ',"channel":"widget"}', '*');
+      }, { once: true });
+      caixa.appendChild(q);
+      previas.push(q);
+    });
+  }
+
+  // quem pediu menos movimento ou está economizando dados fica com a miniatura
+  if (!reduceMotion && !economizaDados && 'IntersectionObserver' in window) {
+    var obsPrevia = new IntersectionObserver(function (entradas) {
+      var visivel = entradas[0].isIntersecting;
+      if (visivel) { montarPrevias(); tocarPrevias(); }
+      else pausarPrevias();
+    }, { rootMargin: '200px 0px' });
+    obsPrevia.observe(tgrid);
+  }
 
   /* ---------------- LIGHTBOX DE VÍDEO ---------------- */
   var lb = document.getElementById('video-lb');
@@ -1637,6 +1708,7 @@ img{ max-width:100%; }
       '?autoplay=1&rel=0&modestbranding=1" title="Depoimento de cliente" ' +
       'allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
     lb.hidden = false;
+    pausarPrevias();          // uma coisa por vez tocando
     travarScroll(true);
     setTimeout(function () { lb.classList.add('in'); }, 20);
     lbClose.focus();
@@ -1647,6 +1719,7 @@ img{ max-width:100%; }
     setTimeout(function () {
       lb.hidden = true;
       lbFrame.innerHTML = '';  // remove o iframe: o áudio precisa parar
+      tocarPrevias();
       if (lbOrigem) { lbOrigem.focus(); lbOrigem = null; }
     }, 320);
   }
