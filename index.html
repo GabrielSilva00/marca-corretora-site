@@ -1687,13 +1687,18 @@ img{ max-width:100%; }
   }
 
   // quem pediu menos movimento ou está economizando dados fica com a miniatura
-  if (!reduceMotion && !economizaDados && 'IntersectionObserver' in window) {
-    var obsPrevia = new IntersectionObserver(function (entradas) {
-      var visivel = entradas[0].isIntersecting;
-      if (visivel) { montarPrevias(); tocarPrevias(); }
-      else pausarPrevias();
-    }, { rootMargin: '200px 0px' });
-    obsPrevia.observe(tgrid);
+  if (!reduceMotion && !economizaDados) {
+    // as prévias arrancam junto com o site e seguem rodando: quando o visitante
+    // chega na seção o depoimento já está no meio, em vez de começar ali.
+    // O load garante que elas não disputem banda com o vídeo do hero na abertura.
+    if (document.readyState === 'complete') montarPrevias();
+    else window.addEventListener('load', montarPrevias, { once: true });
+
+    // aba em segundo plano não precisa decodificar três vídeos
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) pausarPrevias();
+      else if (lb.hidden) tocarPrevias();
+    });
   }
 
   /* ---------------- LIGHTBOX DE VÍDEO ---------------- */
