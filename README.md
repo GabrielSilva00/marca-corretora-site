@@ -57,9 +57,16 @@ Tudo que muda com frequência está em constantes no `<script>` do final do `ind
 |---|---|
 | `WA_PHONE` | número do WhatsApp usado pelo formulário |
 | `PARTNERS` | as 17 seguradoras do carrossel (arquivo + nome para o `alt`) |
-| `SMALL_SERVICES` | os 16 cards compactos de serviços |
-| `TESTIMONIALS` | os depoimentos do carrossel |
+| `SMALL_SERVICES` | os 16 cards compactos atrás do botão "Outros seguros" |
+| `SERVICES` | as descrições longas que abrem no modal do "Ver mais" (texto do site oficial) |
+| `TESTI_VIDEOS` | os 3 depoimentos em vídeo (id do YouTube, nome, cidade e miniatura local) |
 | `ICONS` | os paths SVG usados pelos cards compactos |
+
+Cada card de seguro tem um `data-svc="<chave>"` que aponta para uma entrada de
+`SERVICES`. Para adicionar uma modalidade, crie a entrada lá e use a mesma chave no card.
+
+Os vídeos de depoimento só carregam o iframe do YouTube quando alguém clica no play; as
+miniaturas ficam em `uploads/depoimento-*.jpg`.
 
 O formulário de contato não tem backend: ele monta a mensagem e abre uma
 conversa no WhatsApp com os dados já preenchidos. Nenhum dado é armazenado.

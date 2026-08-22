@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marca Corretora de Seguros — Analândia/SP | 17 seguradoras, atendimento nacional</title>
+<title>Marca Corretora de Seguros, Analândia/SP | 17 seguradoras, atendimento nacional</title>
 <meta name="description" content="Corretora de seguros com mais de 8 anos de mercado. Auto, vida, residencial, empresarial, viagem e saúde cotados nas 17 principais seguradoras do Brasil. Atendimento humano e resposta em minutos.">
 <meta name="author" content="Marca Corretora de Seguros">
 <meta name="theme-color" content="#0B1225">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Marca Corretora de Seguros">
-<meta property="og:title" content="Marca Corretora de Seguros — sua tranquilidade é a nossa marca">
+<meta property="og:title" content="Marca Corretora de Seguros, sua tranquilidade é a nossa marca">
 <meta property="og:description" content="+R$ 150 milhões em capital segurado, 17 seguradoras parceiras e atendimento humano. Cotação rápida para auto, vida, residencial, empresarial e mais.">
 <meta property="og:url" content="https://marcacorretora.com.br/">
 <meta property="og:image" content="https://marcacorretora.com.br/uploads/og-image.png">
@@ -49,7 +49,7 @@
   "areaServed": "BR",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Avenida 2, nº 447 — Centro",
+    "streetAddress": "Avenida 2, nº 447, Centro",
     "addressLocality": "Analândia",
     "addressRegion": "SP",
     "postalCode": "13550-000",
@@ -242,17 +242,18 @@ img{ max-width:100%; }
 .hero-lead strong{ color:var(--brand-2); font-weight:600; }
 .cta-row{ display:flex; gap:14px; flex-wrap:wrap; }
 .btn-primary{
-  padding:16px 28px; border-radius:999px; background:linear-gradient(135deg,#F5A623,#FFBE0B);
-  color:#1A1A2E; font-weight:700; font-size:15px; display:inline-flex; align-items:center; gap:10px;
-  box-shadow:0 20px 40px -12px rgba(245,166,35,.5); transition:transform .25s, box-shadow .25s; border:none; cursor:pointer;
+  padding:16px 28px; border-radius:999px; background:#fff;
+  color:#12203D; font-weight:700; font-size:15px; display:inline-flex; align-items:center; gap:10px;
+  box-shadow:0 12px 28px -16px rgba(0,0,0,.55); transition:transform .25s, box-shadow .25s, background .25s; border:none; cursor:pointer;
 }
-.btn-primary:hover{ box-shadow:0 26px 50px -14px rgba(245,166,35,.65); }
+.btn-primary:hover{ background:#FCFBF9; box-shadow:0 18px 34px -18px rgba(0,0,0,.6); }
 .btn-ghost{
-  padding:16px 26px; border-radius:999px; background:transparent; color:#fff; font-weight:600; font-size:15px;
-  display:inline-flex; align-items:center; gap:10px; border:1.5px solid rgba(255,255,255,.28);
+  padding:16px 26px; border-radius:999px; color:#fff; font-weight:600; font-size:15px;
+  background:rgba(255,255,255,.10); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(255,255,255,.34);
   transition:transform .25s, background .25s, border-color .25s;
 }
-.btn-ghost:hover{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.5); }
+.btn-ghost:hover{ background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.55); }
 .float-chip{
   padding:10px 16px; background:rgba(11,18,37,.60);
   border:1px solid rgba(255,255,255,.22);
@@ -378,28 +379,46 @@ img{ max-width:100%; }
 }
 .svc-card:hover .svc-card-cta{ max-height:40px; opacity:1; margin-top:14px; }
 
-/* Outros seguros (hidden by default) */
-.svc-extras{ display:none; margin-top:16px; }
-.svc-extras.open{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-.svc-sm{
-  padding:20px; border-radius:16px; background:var(--surface);
-  border:1px solid var(--border); display:flex; flex-direction:column; gap:10px;
-  color:var(--text); transition:transform .3s, box-shadow .3s, border-color .3s;
+/* Outros seguros: o bloco cresce de 0fr para 1fr, sem calcular altura no JS */
+.svc-extras{
+  display:grid; grid-template-rows:0fr;
+  transition:grid-template-rows .55s cubic-bezier(.2,.7,.2,1);
 }
-.svc-sm:hover{ transform:translateY(-3px); box-shadow:0 12px 24px -12px var(--shadow); border-color:rgba(245,166,35,.4); }
-.svc-sm .ico{ width:40px; height:40px; border-radius:11px; background:rgba(245,166,35,.16); color:var(--brand); display:flex; align-items:center; justify-content:center; }
-.svc-sm .name{ font-family:'Outfit',sans-serif; font-weight:700; font-size:15px; line-height:1.25; }
+.svc-extras.open{ grid-template-rows:1fr; }
+.svc-extras-inner{ overflow:hidden; min-height:0; }
+.svc-extras-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px;
+  padding-top:16px;
+}
+.svc-sm{
+  padding:22px; border-radius:18px; color:var(--text);
+  background:linear-gradient(160deg,var(--surface),var(--surface-2));
+  border:1px solid rgba(245,166,35,.26);
+  box-shadow:0 10px 24px -18px var(--shadow);
+  display:flex; flex-direction:column; gap:14px;
+  opacity:0; transform:translateY(14px);
+  transition:opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s;
+  transition-delay:calc(var(--i) * 26ms);
+}
+.svc-extras.open .svc-sm{ opacity:1; transform:none; }
+.svc-extras.open .svc-sm:hover{ transform:translateY(-3px); box-shadow:0 22px 40px -26px var(--shadow); border-color:rgba(245,166,35,.65); }
+.svc-sm .ico{ width:44px; height:44px; border-radius:12px; background:rgba(245,166,35,.26); color:#B87514; display:flex; align-items:center; justify-content:center; }
+.svc-sm .name{ font-family:'Outfit',sans-serif; font-weight:700; font-size:15.5px; line-height:1.25; color:var(--text); }
+.svc-sm .more{ margin-top:auto; font-size:12px; font-weight:600; color:var(--brand); letter-spacing:.02em; opacity:.9; }
 .btn-outros{
-  display:flex; align-items:center; justify-content:center; gap:10px;
-  margin:32px auto 0; padding:14px 32px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  margin:32px auto 0; padding:15px 30px; border-radius:999px;
   background:var(--surface); border:1.5px solid var(--border); color:var(--text);
   font-family:'Outfit',sans-serif; font-weight:600; font-size:15px;
-  cursor:pointer; transition:transform .25s, background .25s, border-color .25s;
+  cursor:pointer; transition:background .25s, border-color .25s, box-shadow .25s;
 }
-.btn-outros:hover{ border-color:var(--brand); background:rgba(245,166,35,.06); }
-.btn-outros.open{ margin-top:24px; }
-.btn-outros .chevron{ transition:transform .3s; }
-.btn-outros.open .chevron{ transform:rotate(180deg); }
+.btn-outros:hover{ border-color:var(--brand); background:rgba(245,166,35,.06); box-shadow:0 16px 30px -26px var(--shadow); }
+.btn-outros-count{
+  font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em;
+  padding:3px 9px; border-radius:999px; background:rgba(245,166,35,.2); color:#B87514;
+}
+.btn-outros .chevron{ transition:transform .5s cubic-bezier(.2,.7,.2,1); color:var(--brand); }
+.btn-outros[aria-expanded="true"] .chevron{ transform:rotate(180deg); }
 
 /* ============ PILARES ============ */
 .pillars{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; counter-reset:pillar; }
@@ -474,48 +493,8 @@ img{ max-width:100%; }
 
 /* ============ DEPOIMENTOS ============ */
 .testi-grid{
-  display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px;
 }
-.testi-card{
-  padding:32px 28px; border-radius:20px;
-  background:var(--surface); border:1px solid var(--border); color:var(--text);
-  display:flex; flex-direction:column; justify-content:space-between;
-  transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .4s;
-  position:relative; overflow:hidden;
-}
-.testi-card::before{
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg,#F5A623,#FFBE0B);
-  transform:scaleX(0); transform-origin:left;
-  transition:transform .5s cubic-bezier(.2,.7,.2,1);
-}
-.testi-card:hover{ transform:translateY(-6px); box-shadow:0 24px 48px -16px rgba(27,42,74,.15); border-color:rgba(245,166,35,.4); }
-.testi-card:hover::before{ transform:scaleX(1); }
-.testi-card.featured{
-  grid-row:span 2;
-  background:linear-gradient(160deg,#1B2A4A,#0F4C75);
-  border:none; color:#fff;
-}
-.testi-card.featured .testi-role{ color:rgba(237,235,230,.6); }
-.testi-card.featured .testi-text{ font-size:20px; }
-.testi-card.featured .testi-who{ border-top-color:rgba(255,255,255,.12); }
-.testi-card.featured::before{ background:linear-gradient(90deg,#F5A623,#FFBE0B); }
-.testi-rating{ display:flex; gap:2px; margin-bottom:14px; color:#F5A623; }
-.testi-quote{
-  font-family:'Outfit',sans-serif; font-size:48px; line-height:1; color:#F5A623;
-  margin-bottom:8px; opacity:.6;
-}
-.testi-text{ margin:0; font-size:16px; line-height:1.65; font-family:'Outfit',sans-serif; font-weight:400; flex:1; }
-.testi-who{ display:flex; align-items:center; gap:14px; margin-top:24px; padding-top:20px; border-top:1px solid var(--border); }
-.testi-avatar{
-  width:44px; height:44px; border-radius:50%; flex-shrink:0;
-  background:linear-gradient(135deg,#F5A623,#FFBE0B); color:#1A1A2E;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Outfit',sans-serif; font-weight:800; font-size:14px;
-}
-.testi-name{ font-weight:700; font-size:14px; }
-.testi-role{ font-size:12px; color:var(--muted); }
-
 /* ============ CONTATO ============ */
 .contact{ padding:120px 40px; background:linear-gradient(180deg,var(--bg),var(--surface-2)); }
 .contact-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:start; }
@@ -589,6 +568,129 @@ img{ max-width:100%; }
 .wa-fab:hover{ transform:translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,.45); }
 .wa-fab .bubble{ width:34px; height:34px; border-radius:50%; background:#fff; color:var(--wa); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
 
+
+/* ============ ABERTURA DO HERO ============ */
+.hero-intro{
+  position:absolute; inset:0; z-index:6;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(36,53,89,.9), transparent 62%),
+    var(--navy-deep);
+  transition:opacity .74s cubic-bezier(.7,0,.2,1), transform .74s cubic-bezier(.7,0,.2,1), visibility .74s;
+}
+.hero-intro img{
+  height:78px; width:auto; display:block;
+  background:#fff; border-radius:18px; padding:14px 22px;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.8);
+  animation:introPulse 1.7s ease-in-out infinite;
+}
+@keyframes introPulse{ 0%,100%{ transform:scale(1); opacity:1; } 50%{ transform:scale(.975); opacity:.86; } }
+.hero.booting .hero-video{ opacity:0; transform:scale(1.06); }
+.hero.booting .hero-copy > *{ opacity:0; transform:translateX(-48px); }
+.hero.booting .scroll-hint{ opacity:0; }
+.hero-video{ transition:opacity 1.1s ease-out, transform 1.4s cubic-bezier(.2,.7,.2,1); }
+.hero-copy > *{ transition:opacity .85s ease, transform .85s cubic-bezier(.2,.7,.2,1); }
+.scroll-hint{ transition:opacity .8s ease .5s; }
+.hero.ready .hero-intro{ opacity:0; visibility:hidden; transform:translateX(72px); }
+.hero.ready .hero-copy > *:nth-child(1){ transition-delay:.02s; }
+.hero.ready .hero-copy > *:nth-child(2){ transition-delay:.14s; }
+.hero.ready .hero-copy > *:nth-child(3){ transition-delay:.26s; }
+
+/* ============ MODAL DE SERVICO ============ */
+.svc-modal, .video-lb{ position:fixed; inset:0; z-index:120; display:flex; align-items:center; justify-content:center; padding:24px; }
+.svc-modal[hidden], .video-lb[hidden]{ display:none; }
+.svc-modal-backdrop, .video-lb-backdrop{
+  position:absolute; inset:0; background:rgba(8,13,28,.72);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  opacity:0; transition:opacity .32s ease;
+}
+.svc-modal.in .svc-modal-backdrop, .video-lb.in .video-lb-backdrop{ opacity:1; }
+.svc-modal-panel{
+  position:relative; z-index:1; width:min(600px,100%); max-height:86vh; overflow-y:auto;
+  padding:40px; border-radius:26px;
+  background:var(--surface); border:1px solid var(--border); color:var(--text);
+  box-shadow:0 50px 90px -40px rgba(0,0,0,.55);
+  opacity:0; transition:opacity .34s ease, transform .38s cubic-bezier(.2,.8,.25,1);
+}
+.svc-modal.in .svc-modal-panel{ opacity:1; transform:none; }
+.svc-modal-close, .video-lb-close{
+  position:absolute; top:16px; right:16px; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--border); background:var(--surface-2); color:var(--text);
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  transition:background .2s, color .2s;
+}
+.svc-modal-close:hover, .video-lb-close:hover{ background:var(--navy); color:#fff; }
+.svc-modal-tag{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--brand); margin:0 0 12px; }
+.svc-modal-title{ font-family:'Outfit',sans-serif; font-weight:800; font-size:clamp(26px,3.4vw,34px); letter-spacing:-.025em; margin:0 0 18px; padding-right:40px; }
+.svc-modal-body p{ margin:0 0 14px; font-size:15.5px; line-height:1.68; color:var(--muted); }
+.svc-modal-body p:last-child{ margin-bottom:0; }
+.svc-modal-body .note{ font-size:13px; opacity:.85; }
+.svc-modal-cta{
+  margin-top:28px; display:inline-flex; align-items:center; gap:10px;
+  padding:15px 26px; border-radius:999px; background:var(--wa); color:#fff;
+  font-weight:700; font-size:15px; transition:transform .22s, box-shadow .22s;
+}
+.svc-modal-cta:hover{ transform:translateY(-2px); box-shadow:0 16px 30px -18px rgba(31,157,87,.9); }
+
+/* ============ DEPOIMENTOS EM VIDEO ============ */
+.testi-video{
+  display:flex; flex-direction:column; align-items:stretch;
+  width:100%; text-align:left; cursor:pointer; padding:0; overflow:hidden;
+  border-radius:22px; background:var(--surface); border:1px solid var(--border); color:var(--text);
+  box-shadow:0 20px 44px -34px var(--shadow);
+  transition:transform .3s, box-shadow .3s, border-color .3s;
+  font-family:inherit;
+}
+.testi-video:hover{ transform:translateY(-5px); border-color:rgba(245,166,35,.5); box-shadow:0 30px 56px -30px var(--shadow); }
+.testi-thumb{ position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; background:#0B1225; flex-shrink:0; }
+.testi-thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .55s cubic-bezier(.2,.7,.2,1); }
+.testi-video:hover .testi-thumb img{ transform:scale(1.06); }
+.testi-thumb::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(11,18,37,.5), transparent 55%);
+}
+.testi-play{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:2;
+  width:62px; height:62px; border-radius:50%;
+  background:var(--brand); color:#1A1A2E;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 14px 34px -12px rgba(0,0,0,.7);
+  transition:transform .3s cubic-bezier(.2,.8,.25,1), background .3s;
+}
+.testi-video:hover .testi-play{ transform:translate(-50%,-50%) scale(1.12); background:var(--brand-2); }
+.testi-foot{ width:100%; padding:18px 22px 20px; display:flex; align-items:center; gap:12px; }
+.testi-foot .av{
+  width:40px; height:40px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,#1B2A4A,#F5A623); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Outfit',sans-serif; font-weight:700; font-size:14px;
+}
+.testi-foot .nm{ font-family:'Outfit',sans-serif; font-weight:700; font-size:15.5px; }
+.testi-foot .lc{ font-size:12.5px; color:var(--muted); }
+.video-lb-panel{ position:relative; z-index:1; width:min(920px,100%); }
+.video-lb-frame{
+  position:relative; aspect-ratio:16/9; width:100%; overflow:hidden;
+  border-radius:20px; background:#000; box-shadow:0 50px 90px -40px rgba(0,0,0,.85);
+  opacity:0; transform:scale(.94); transition:opacity .34s ease, transform .38s cubic-bezier(.2,.8,.25,1);
+}
+.video-lb.in .video-lb-frame{ opacity:1; transform:none; }
+.video-lb-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+.video-lb-close{ top:-52px; right:0; background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.28); color:#fff; }
+.video-lb-close:hover{ background:#fff; color:#1A1A2E; }
+
+/* ============ REDES SOCIAIS ============ */
+.social-row{ gap:12px; }
+.social-btn{
+  width:46px; height:46px; border-radius:13px; color:#fff; border:none;
+  box-shadow:0 10px 22px -14px rgba(0,0,0,.7);
+  transition:transform .25s, box-shadow .25s, filter .25s;
+}
+.social-btn:hover{ transform:translateY(-3px); filter:saturate(1.15); color:#fff; }
+.social-btn.wa{ background:#25D366; box-shadow:0 12px 24px -14px rgba(37,211,102,.95); }
+.social-btn.tt{ background:#121212; box-shadow:0 12px 24px -14px rgba(0,0,0,.9); }
+.social-btn.fb{ background:#1877F2; box-shadow:0 12px 24px -14px rgba(24,119,242,.95); }
+.social-btn.ig{ background:linear-gradient(135deg,#F58529,#DD2A7B 55%,#8134AF); box-shadow:0 12px 24px -14px rgba(221,42,123,.95); }
+
 /* ============ RESPONSIVO ============ */
 @media (max-width:1024px){
   .bento{ grid-template-columns:repeat(6,1fr); }
@@ -627,8 +729,7 @@ img{ max-width:100%; }
   .map-head{ padding:64px 22px 32px; }
   .footer{ padding:64px 22px 32px; }
   .footer-grid{ grid-template-columns:1fr 1fr; gap:32px; }
-  .testi-grid{ grid-template-columns:1fr 1fr; }
-  .testi-card.featured{ grid-row:auto; }
+  .testi-grid{ grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
   .partners-grid{ grid-template-columns:repeat(3,1fr); gap:12px; padding:0 22px; }
   .partner-card{ height:80px; padding:14px; }
   .partner-card img{ height:36px; }
@@ -645,10 +746,11 @@ img{ max-width:100%; }
   .sec-head{ margin-bottom:36px; }
   .form{ padding:24px; }
   .form-row{ grid-template-columns:1fr; }
-  .testi-card{ flex:0 0 auto; padding:28px 24px; min-height:auto; }
-  .testi-card.featured .testi-text{ font-size:16px; }
-  .testi-text{ font-size:15px; }
   .testi-grid{ grid-template-columns:1fr; }
+  .svc-modal-panel{ padding:28px 24px; border-radius:22px; }
+  .btn-outros{ padding:14px 24px; }
+  .svc-extras-grid{ grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
+  .video-lb-close{ top:-46px; }
   .partners-grid{ grid-template-columns:repeat(2,1fr); }
   .stat-num{ font-size:clamp(32px,8vw,40px) !important; }
   .footer-grid{ grid-template-columns:1fr; }
@@ -666,6 +768,10 @@ img{ max-width:100%; }
   .marquee-track{ animation:none; flex-wrap:wrap; width:auto; justify-content:center; }
   #particles{ display:none; }
   /* sem movimento: o vídeo é pausado no JS e fica só o poster */
+  .hero-intro{ display:none; }
+  .hero.booting .hero-copy > *, .hero.booting .scroll-hint{ opacity:1; transform:none; }
+  .hero.booting .hero-video{ opacity:1; transform:none; }
+  .svc-extras .svc-sm{ opacity:1; transform:none; }
 }
 </style>
 </head>
@@ -675,7 +781,7 @@ img{ max-width:100%; }
 
 <!-- ================= HEADER ================= -->
 <header class="header" id="site-header">
-  <a href="#top" class="hdr-logo" aria-label="Marca Corretora — ir para o início">
+  <a href="#top" class="hdr-logo" aria-label="Marca Corretora, ir para o início">
     <img src="uploads/Logo-217x78.png" alt="Marca Corretora de Seguros" width="217" height="78">
   </a>
 
@@ -711,25 +817,29 @@ img{ max-width:100%; }
 <main id="conteudo">
 
 <!-- ================= HERO ================= -->
-<section id="top" class="hero">
+<section id="top" class="hero booting">
   <div class="hero-video" aria-hidden="true">
-    <video src="uploads/hero-familia.mp4" poster="uploads/hero-poster.jpg" autoplay muted loop playsinline preload="metadata" tabindex="-1"></video>
+    <video id="hero-video" src="uploads/hero-familia.mp4" poster="uploads/hero-poster.jpg" autoplay muted playsinline preload="auto" tabindex="-1"></video>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
+
+  <div class="hero-intro" id="hero-intro" aria-hidden="true">
+    <img src="uploads/Logo-217x78.png" alt="" width="217" height="78">
+  </div>
 
   <div id="particles" aria-hidden="true" style="position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden;"></div>
 
   <div class="hero-grid">
     <div class="hero-copy">
 
-      <h1 class="h1 reveal">
+      <h1 class="h1">
         Sua tranquilidade<br>é a nossa <span style="white-space:nowrap;"><span style="position:relative; display:inline-block;">
           <span class="grad">MARCA</span>
           <svg aria-hidden="true" style="position:absolute; left:0; right:0; bottom:-6px; width:100%; height:14px;" viewBox="0 0 300 14" preserveAspectRatio="none"><path id="underline-path" d="M4 8 Q 80 -2, 150 6 T 296 6" stroke="#F5A623" stroke-width="4" stroke-linecap="round" fill="none" stroke-dasharray="400" stroke-dashoffset="400"/></svg>
         </span>.</span>
       </h1>
 
-      <div class="cta-row reveal">
+      <div class="cta-row">
         <a href="#contato" class="btn-primary" data-magnetic>
           Solicitar Orçamento
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -797,7 +907,7 @@ img{ max-width:100%; }
 
     <div class="bento">
 
-      <a href="#contato" class="svc-card svc-lg reveal">
+      <a href="#contato" class="svc-card svc-lg reveal" data-svc="auto">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/auto.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -805,11 +915,11 @@ img{ max-width:100%; }
           </div>
           <h3 class="svc-card-title">Seguro Auto</h3>
           <p class="svc-card-desc">Cotação nas 17 principais seguradoras. Assistência 24h, carro reserva, vidros e mais.</p>
-          <span class="svc-card-cta">Cotar agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <span class="svc-card-cta">Ver mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </div>
       </a>
 
-      <a href="#contato" class="svc-card svc-md reveal">
+      <a href="#contato" class="svc-card svc-md reveal" data-svc="vida">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/vida.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -817,23 +927,23 @@ img{ max-width:100%; }
           </div>
           <h3 class="svc-card-title">Seguro de Vida</h3>
           <p class="svc-card-desc">Proteção financeira e familiar. Cobre doenças graves, invalidez e muito mais.</p>
-          <span class="svc-card-cta">Cotar agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <span class="svc-card-cta">Ver mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </div>
       </a>
 
-      <a href="#contato" class="svc-card svc-md reveal">
+      <a href="#contato" class="svc-card svc-md reveal" data-svc="residencial">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/residencial.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFBE0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </div>
           <h3 class="svc-card-title">Residencial</h3>
-          <p class="svc-card-desc">Incêndio, roubo, danos elétricos e imprevistos — sua casa protegida.</p>
-          <span class="svc-card-cta">Cotar agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <p class="svc-card-desc">Incêndio, roubo, danos elétricos e imprevistos, sua casa protegida.</p>
+          <span class="svc-card-cta">Ver mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </div>
       </a>
 
-      <a href="#contato" class="svc-card svc-sm-row reveal">
+      <a href="#contato" class="svc-card svc-sm-row reveal" data-svc="empresarial">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/empresarial.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -841,11 +951,11 @@ img{ max-width:100%; }
           </div>
           <h3 class="svc-card-title">Empresarial</h3>
           <p class="svc-card-desc">Coberturas para pequenas, médias e grandes empresas e indústrias.</p>
-          <span class="svc-card-cta">Cotar agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <span class="svc-card-cta">Ver mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </div>
       </a>
 
-      <a href="#contato" class="svc-card svc-sm-row reveal">
+      <a href="#contato" class="svc-card svc-sm-row reveal" data-svc="viagem">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/Viagem.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -853,11 +963,11 @@ img{ max-width:100%; }
           </div>
           <h3 class="svc-card-title">Seguro Viagem</h3>
           <p class="svc-card-desc">Cobertura médica, bagagem e assistência global para qualquer destino.</p>
-          <span class="svc-card-cta">Cotar agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <span class="svc-card-cta">Ver mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </div>
       </a>
 
-      <a href="#contato" class="svc-card svc-sm-row reveal">
+      <a href="#contato" class="svc-card svc-sm-row reveal" data-svc="saude">
         <div class="svc-bg" aria-hidden="true"><img src="uploads/saude.jpg" alt="" loading="lazy"></div>
         <div class="svc-content">
           <div class="svc-ico-wrap" aria-hidden="true">
@@ -865,18 +975,23 @@ img{ max-width:100%; }
           </div>
           <h3 class="svc-card-title">Plano de Saúde</h3>
           <p class="svc-card-desc">Corporativos e individuais com as melhores operadoras do mercado.</p>
-          <span class="svc-card-cta">Cotar agora <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <span class="svc-card-cta">Ver mais <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </div>
       </a>
 
     </div>
 
-    <div class="svc-extras" id="svc-extras"></div>
-
-    <button class="btn-outros" id="btn-outros" type="button">
-      Outros seguros
-      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    <button class="btn-outros" id="btn-outros" type="button" aria-expanded="false" aria-controls="svc-extras">
+      <span class="btn-outros-label">Outros seguros</span>
+      <span class="btn-outros-count">16</span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
+
+    <div class="svc-extras" id="svc-extras">
+      <div class="svc-extras-inner">
+        <div class="svc-extras-grid" id="svc-extras-grid"></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -910,7 +1025,7 @@ img{ max-width:100%; }
         </div>
         <div class="pc-bottom">
           <h3 class="pc-title">Agilidade</h3>
-          <p class="pc-text">Cotação rápida nas 17 seguradoras — resposta em minutos, não dias.</p>
+          <p class="pc-text">Cotação rápida nas 17 seguradoras, resposta em minutos, não dias.</p>
         </div>
       </div>
       <div class="pillar-card reveal">
@@ -943,6 +1058,7 @@ img{ max-width:100%; }
       <div>
         <h2 class="h2 reveal" style="max-width:640px;">O que nossos clientes dizem.</h2>
       </div>
+      <p class="sec-note reveal">Sem roteiro e sem ator: quem contratou conta como foi. Toque para assistir.</p>
     </div>
 
     <div class="testi-grid" id="testi-grid"></div>
@@ -962,7 +1078,7 @@ img{ max-width:100%; }
         <div class="contact-list">
           <div class="contact-item">
             <div class="contact-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <div><div class="contact-k">Endereço</div><div class="contact-v">Avenida 2, nº 447 — Centro, Analândia/SP</div></div>
+            <div><div class="contact-k">Endereço</div><div class="contact-v">Avenida 2, nº 447, Centro, Analândia/SP</div></div>
           </div>
           <div class="contact-item">
             <div class="contact-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
@@ -979,9 +1095,10 @@ img{ max-width:100%; }
         </div>
 
         <div class="social-row">
-          <a href="https://facebook.com/marcacorretora" target="_blank" rel="noopener" class="social-btn" data-magnetic aria-label="Facebook da Marca Corretora"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12A10 10 0 1 0 10.4 21.9V15h-2.6v-3h2.6V9.8c0-2.6 1.5-4 3.9-4 1.1 0 2.3.2 2.3.2v2.5H15.3c-1.3 0-1.7.8-1.7 1.6V12h2.9l-.5 3h-2.4v6.9A10 10 0 0 0 22 12z"/></svg></a>
-          <a href="https://instagram.com/marcacorretora" target="_blank" rel="noopener" class="social-btn" data-magnetic aria-label="Instagram da Marca Corretora"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4a4 4 0 1 1-4.6-4.6A4 4 0 0 1 16 11.4z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg></a>
-          <a href="https://tiktok.com/@marcacorretoradeseguros" target="_blank" rel="noopener" class="social-btn" data-magnetic aria-label="TikTok da Marca Corretora"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.6 6.3a4.8 4.8 0 0 1-3.8-4.3H12v14.7a2.9 2.9 0 1 1-2-2.7v-3.7a6.5 6.5 0 1 0 5.7 6.4V9.6a8.4 8.4 0 0 0 4.9 1.5V7.4a4.8 4.8 0 0 1-1-1z"/></svg></a>
+          <a href="https://api.whatsapp.com/send?phone=5519971578019&amp;text=Ol%C3%A1%2C%20gostaria%20de%20realizar%20um%20or%C3%A7amento" target="_blank" rel="noopener" class="social-btn wa" data-magnetic aria-label="WhatsApp da Marca Corretora"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5H8c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2.1 3.2 5 4.4.7.3 1.2.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.2-.2-.5-.3zM12 2A10 10 0 0 0 3.5 17.4L2 22l4.7-1.5A10 10 0 1 0 12 2z"/></svg></a>
+          <a href="https://www.tiktok.com/@marcacorretoradeseguros" target="_blank" rel="noopener" class="social-btn tt" data-magnetic aria-label="TikTok da Marca Corretora"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.6 6.3a4.8 4.8 0 0 1-3.8-4.3H12v14.7a2.9 2.9 0 1 1-2-2.7v-3.7a6.5 6.5 0 1 0 5.7 6.4V9.6a8.4 8.4 0 0 0 4.9 1.5V7.4a4.8 4.8 0 0 1-1-1z"/></svg></a>
+          <a href="https://www.facebook.com/marcacorretora" target="_blank" rel="noopener" class="social-btn fb" data-magnetic aria-label="Facebook da Marca Corretora"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12A10 10 0 1 0 10.4 21.9V15h-2.6v-3h2.6V9.8c0-2.6 1.5-4 3.9-4 1.1 0 2.3.2 2.3.2v2.5H15.3c-1.3 0-1.7.8-1.7 1.6V12h2.9l-.5 3h-2.4v6.9A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="https://www.instagram.com/marcacorretora" target="_blank" rel="noopener" class="social-btn ig" data-magnetic aria-label="Instagram da Marca Corretora"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.4"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg></a>
         </div>
       </div>
 
@@ -1036,7 +1153,7 @@ img{ max-width:100%; }
         Analândia, SP.<br><span style="color:rgba(255,255,255,.72);">Atendimento em todo o Brasil.</span>
       </h2>
       <p style="color:rgba(237,235,230,.8); font-size:15px; max-width:340px; margin:0;">
-        Avenida 2, nº 447 — Centro<br>Analândia — SP<br>CEP 13550-000
+        Avenida 2, nº 447, Centro<br>Analândia, SP<br>CEP 13550-000
       </p>
     </div>
   </div>
@@ -1045,13 +1162,41 @@ img{ max-width:100%; }
   </div>
 </section>
 
+<!-- ================= MODAL DE SERVIÇO ================= -->
+<div class="svc-modal" id="svc-modal" hidden>
+  <div class="svc-modal-backdrop" data-close></div>
+  <div class="svc-modal-panel" role="dialog" aria-modal="true" aria-labelledby="svc-modal-title">
+    <button type="button" class="svc-modal-close" id="svc-modal-close" aria-label="Fechar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <p class="svc-modal-tag" id="svc-modal-tag"></p>
+    <h3 class="svc-modal-title" id="svc-modal-title"></h3>
+    <div class="svc-modal-body" id="svc-modal-body"></div>
+    <a class="svc-modal-cta" id="svc-modal-cta" href="#" target="_blank" rel="noopener">
+      Cotar no WhatsApp
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5H8c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2.1 3.2 5 4.4.7.3 1.2.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.2-.2-.5-.3zM12 2A10 10 0 0 0 3.5 17.4L2 22l4.7-1.5A10 10 0 1 0 12 2z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- ================= LIGHTBOX DE VÍDEO ================= -->
+<div class="video-lb" id="video-lb" hidden>
+  <div class="video-lb-backdrop" data-close></div>
+  <div class="video-lb-panel" role="dialog" aria-modal="true" aria-label="Depoimento em vídeo">
+    <button type="button" class="video-lb-close" id="video-lb-close" aria-label="Fechar vídeo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <div class="video-lb-frame" id="video-lb-frame"></div>
+  </div>
+</div>
+
 </main>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-grid">
     <div>
-      <a href="#top" class="footer-logo-plate" aria-label="Marca Corretora — voltar ao topo">
+      <a href="#top" class="footer-logo-plate" aria-label="Marca Corretora, voltar ao topo">
         <img src="uploads/Logo-217x78.png" alt="Marca Corretora de Seguros" width="217" height="78">
       </a>
       <p class="footer-about">Corretora de seguros com atuação nacional. Ética, transparência e agilidade em cada apólice.</p>
@@ -1071,7 +1216,7 @@ img{ max-width:100%; }
     </div>
     <div>
       <h2 class="footer-h">Fale com a gente</h2>
-      <p class="footer-about" style="margin-bottom:16px;">Dúvida sobre uma cobertura ou quer receber novidades? Chama no WhatsApp — respondemos em minutos.</p>
+      <p class="footer-about" style="margin-bottom:16px;">Dúvida sobre uma cobertura ou quer receber novidades? Chama no WhatsApp, respondemos em minutos.</p>
       <a class="footer-cta" href="https://api.whatsapp.com/send?phone=5519971578019&amp;text=Ol%C3%A1%21%20Quero%20receber%20novidades%20e%20dicas%20sobre%20seguros%20da%20MARCA." target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5H8c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2.1 3.2 5 4.4.7.3 1.2.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.2-.2-.5-.3zM12 2A10 10 0 0 0 3.5 17.4L2 22l4.7-1.5A10 10 0 1 0 12 2z"/></svg>
         Falar agora
@@ -1079,7 +1224,7 @@ img{ max-width:100%; }
     </div>
   </div>
   <div class="footer-bar">
-    <span>© <span id="ano">2026</span> Marca Corretora — Todos os direitos reservados.</span>
+    <span>© <span id="ano">2026</span> Marca Corretora, Todos os direitos reservados.</span>
     <span style="font-family:'JetBrains Mono',monospace;">Analândia · SP · Brasil</span>
   </div>
 </footer>
@@ -1098,6 +1243,30 @@ img{ max-width:100%; }
   var WA_PHONE = '5519971578019';
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+  /* trava a rolagem da pagina enquanto um modal esta aberto */
+  var scrollTravado = false;
+  function travarScroll(travar) {
+    scrollTravado = travar;
+    document.body.classList.toggle('menu-open', travar);
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* sublinhado do H1: disparado quando a abertura do hero termina */
+  function startUnderline() {
+    var path = document.getElementById('underline-path');
+    if (!path) return;
+    if (reduceMotion) { path.style.strokeDashoffset = '0'; return; }
+    setTimeout(function () {
+      path.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)';
+      path.style.strokeDashoffset = '0';
+    }, 420);
+  }
 
   /* ---------------- HEADER STICKY ---------------- */
   var header = document.getElementById('site-header');
@@ -1149,18 +1318,86 @@ img{ max-width:100%; }
   var mqDesktop = window.matchMedia('(min-width: 901px)');
   mqDesktop.addEventListener('change', function (e) { if (e.matches) setMenu(false); });
 
-  /* ---------------- VÍDEO DE FUNDO DO HERO ---------------- */
-  var heroVideo = document.querySelector('.hero-video video');
+  /* ---------------- ABERTURA DO HERO ---------------- */
+  /* A logo segura a tela enquanto o vídeo carrega; quando ele fica pronto, ela sai
+     pela direita ao mesmo tempo que o texto entra pela esquerda e o vídeo aparece. */
+  var hero = document.querySelector('.hero');
+  var heroVideo = document.getElementById('hero-video');
+  var heroPronto = false;
+
+  function revelarHero() {
+    if (heroPronto) return;
+    heroPronto = true;
+    hero.classList.remove('booting');
+    hero.classList.add('ready');
+    startUnderline();
+  }
+
+  if (reduceMotion) {
+    revelarHero();
+  } else {
+    var abriuEm = Date.now();
+    var MIN_LOGO = 700;   // tempo mínimo de exibição da logo
+    var MAX_ESPERA = 3000; // se o vídeo não vier, a sequência roda mesmo assim
+    var aoCarregar = function () {
+      setTimeout(revelarHero, Math.max(0, MIN_LOGO - (Date.now() - abriuEm)));
+    };
+    setTimeout(revelarHero, MAX_ESPERA);
+    if (heroVideo) {
+      if (heroVideo.readyState >= 3) aoCarregar();
+      else {
+        heroVideo.addEventListener('canplay', aoCarregar, { once: true });
+        heroVideo.addEventListener('loadeddata', aoCarregar, { once: true });
+        heroVideo.addEventListener('error', aoCarregar, { once: true });
+      }
+    } else {
+      aoCarregar();
+    }
+  }
+
+  /* ---------------- VÍDEO DE FUNDO: mais lento e vai-e-volta ---------------- */
   if (heroVideo) {
     if (reduceMotion) {
       // quem pediu menos movimento vê apenas o poster
       heroVideo.removeAttribute('autoplay');
-      heroVideo.removeAttribute('loop');
       heroVideo.pause();
     } else {
-      // Safari/iOS às vezes ignora o autoplay do atributo
-      var tryPlay = heroVideo.play();
-      if (tryPlay && tryPlay.catch) tryPlay.catch(function () {});
+      var RATE = 0.7;
+      heroVideo.playbackRate = RATE;
+      var quadroVolta = 0, ultimoTs = 0;
+
+      function tocarFrente() {
+        heroVideo.playbackRate = RATE;
+        var t = heroVideo.play();
+        if (t && t.catch) t.catch(function () {});
+      }
+      function pararVolta() {
+        if (quadroVolta) { cancelAnimationFrame(quadroVolta); quadroVolta = 0; }
+      }
+      function passoVolta(ts) {
+        var dt = ultimoTs ? (ts - ultimoTs) / 1000 : 0;
+        ultimoTs = ts;
+        var proximo = heroVideo.currentTime - dt * RATE;
+        if (proximo <= 0.05) {
+          pararVolta();
+          heroVideo.currentTime = 0;
+          tocarFrente();
+          return;
+        }
+        heroVideo.currentTime = proximo;
+        quadroVolta = requestAnimationFrame(passoVolta);
+      }
+      heroVideo.addEventListener('ended', function () {
+        heroVideo.pause();
+        ultimoTs = 0;
+        pararVolta();
+        quadroVolta = requestAnimationFrame(passoVolta);
+      });
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { pararVolta(); heroVideo.pause(); }
+        else if (!quadroVolta) tocarFrente();
+      });
+      tocarFrente();
     }
   }
 
@@ -1239,80 +1476,95 @@ img{ max-width:100%; }
   };
 
   var SMALL_SERVICES = [
-    { icon: 'pie',      name: 'Previdência Privada' },
-    { icon: 'bike',     name: 'Seguro Bike' },
-    { icon: 'phone',    name: 'Seguro Celular' },
-    { icon: 'key',      name: 'Fiança Locatícia' },
-    { icon: 'building', name: 'Condomínio' },
-    { icon: 'anchor',   name: 'Seguro de Barco' },
-    { icon: 'calendar', name: 'Seguro Eventos' },
-    { icon: 'truck',    name: 'Transporte de Carga' },
-    { icon: 'tooth',    name: 'Plano Odontológico' },
-    { icon: 'shield',   name: 'Responsabilidade Civil' },
-    { icon: 'tool',     name: 'Riscos de Engenharia' },
-    { icon: 'tractor',  name: 'Equip. Agrícolas' },
-    { icon: 'target',   name: 'Consórcio' },
-    { icon: 'card',     name: 'Financiamento Auto' },
-    { icon: 'trend',    name: 'Capitalização Aluguel' },
-    { icon: 'heart',    name: 'Vida Empresarial' }
+    { icon: 'pie',      name: 'Previdência Privada',    svc: 'previdencia' },
+    { icon: 'bike',     name: 'Seguro Bike',            svc: 'bike' },
+    { icon: 'phone',    name: 'Seguro Celular',         svc: 'celular' },
+    { icon: 'key',      name: 'Fiança Locatícia',       svc: 'fianca' },
+    { icon: 'building', name: 'Condomínio',             svc: 'condominio' },
+    { icon: 'anchor',   name: 'Seguro de Barco',        svc: 'barco' },
+    { icon: 'calendar', name: 'Seguro Eventos',         svc: 'eventos' },
+    { icon: 'truck',    name: 'Transporte de Carga',    svc: 'transporte' },
+    { icon: 'tooth',    name: 'Plano Odontológico',     svc: 'odonto' },
+    { icon: 'shield',   name: 'Responsabilidade Civil', svc: 'rc' },
+    { icon: 'tool',     name: 'Riscos de Engenharia',   svc: 'engenharia' },
+    { icon: 'tractor',  name: 'Equip. Agrícolas',       svc: 'agricolas' },
+    { icon: 'target',   name: 'Consórcio',              svc: 'consorcio' },
+    { icon: 'card',     name: 'Financiamento Auto',     svc: 'financiamento' },
+    { icon: 'trend',    name: 'Capitalização Aluguel',  svc: 'capitalizacao' },
+    { icon: 'heart',    name: 'Vida Empresarial',       svc: 'vida-empresarial' }
   ];
 
   var extrasHost = document.getElementById('svc-extras');
-  extrasHost.innerHTML = SMALL_SERVICES.map(function (s) {
-    return '<a href="#contato" class="svc-sm">' +
+  document.getElementById('svc-extras-grid').innerHTML = SMALL_SERVICES.map(function (s, i) {
+    return '<a href="#contato" class="svc-sm" data-svc="' + s.svc + '" style="--i:' + i + '">' +
       '<span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + ICONS[s.icon] + '</svg></span>' +
       '<span class="name">' + s.name + '</span>' +
+      '<span class="more">Ver mais</span>' +
       '</a>';
   }).join('');
 
   var btnOutros = document.getElementById('btn-outros');
+  var rotuloOutros = btnOutros.querySelector('.btn-outros-label');
   btnOutros.addEventListener('click', function () {
-    var isOpen = extrasHost.classList.toggle('open');
-    btnOutros.classList.toggle('open', isOpen);
-    btnOutros.querySelector('.btn-outros span, .btn-outros').childNodes[0].textContent = isOpen ? 'Fechar ' : 'Outros seguros ';
-    if (isOpen) {
-      extrasHost.querySelectorAll('.svc-sm').forEach(function (el) { el.classList.add('reveal', 'in'); });
-    }
+    var aberto = !extrasHost.classList.contains('open');
+    extrasHost.classList.toggle('open', aberto);
+    btnOutros.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+    rotuloOutros.textContent = aberto ? 'Fechar' : 'Outros seguros';
   });
 
-  /* ---------------- DEPOIMENTOS ---------------- */
-  var TESTIMONIALS = [
-    { name: 'Ana Ribeiro',      role: 'Cliente há 5 anos',  initial: 'AR', text: 'A MARCA me ajudou a economizar quase 30% no seguro do carro e ainda me deu um atendimento que eu nunca tive em corretora nenhuma. Recomendo de olhos fechados.' },
-    { name: 'Marcos Freitas',   role: 'Empresário',         initial: 'MF', text: 'Contratei o seguro empresarial em 24h. A equipe foi ágil, transparente e explicou cada cláusula. Sem enrolação, sem letra miúda.' },
-    { name: 'Juliana Costa',    role: 'Cliente há 3 anos',  initial: 'JC', text: 'Tive um sinistro no meio da madrugada e a MARCA me atendeu no WhatsApp em minutos. É esse tipo de serviço que faz diferença.' },
-    { name: 'Rodrigo Alves',    role: 'Consultor',          initial: 'RA', text: 'Fecho todos os meus seguros com a MARCA há anos. Comparam sempre nas 17 seguradoras e nunca me venderam algo que eu não precisava.' },
-    { name: 'Patrícia Melo',    role: 'Arquiteta',          initial: 'PM', text: 'Seguro residencial, do carro, viagem e vida — tudo na MARCA. Praticidade e confiança em um só lugar.' },
-    { name: 'Leonardo Prado',   role: 'Cliente há 7 anos',  initial: 'LP', text: 'A relação humana faz a diferença. Eles ligam, lembram do vencimento, dão dicas. É como ter um consultor pessoal.' },
-    { name: 'Camila Ferreira',  role: 'Empresária',         initial: 'CF', text: 'Migrei toda minha equipe pro seguro de vida em grupo com a MARCA. Processo simples e preço competitivo.' }
+  /* ---------------- DEPOIMENTOS EM VÍDEO ---------------- */
+  /* Miniatura local + iframe só no clique: nada do YouTube carrega antes disso. */
+  var TESTI_VIDEOS = [
+    { id: '78NLbwoySLs', nome: 'Luiz F.',  local: 'São Paulo, SP',    inicial: 'LF', thumb: 'uploads/depoimento-luiz.jpg' },
+    { id: 'NpUMk9D1Q5g', nome: 'Julio C.', local: 'Uberaba, MG',      inicial: 'JC', thumb: 'uploads/depoimento-julio.jpg' },
+    { id: 'ltIS59diXB4', nome: 'Maribel',  local: 'Pirassununga, SP', inicial: 'MB', thumb: 'uploads/depoimento-maribel.jpg' }
   ];
 
   var tgrid = document.getElementById('testi-grid');
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
-
-  var starSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>';
-
-  // Show 6 testimonials in a 3-column grid; first one is "featured" (spans 2 rows)
-  var displayTestimonials = TESTIMONIALS.slice(0, 6);
-  tgrid.innerHTML = displayTestimonials.map(function (t, i) {
-    var isFeatured = i === 0;
-    return '<article class="testi-card reveal' + (isFeatured ? ' featured' : '') + '">' +
-      '<div>' +
-        (isFeatured
-          ? '<div class="testi-quote" aria-hidden="true">"</div>'
-          : '<div class="testi-rating">' + starSvg + starSvg + starSvg + starSvg + starSvg + '</div>') +
-        '<p class="testi-text">' + escapeHtml(t.text) + '</p>' +
-      '</div>' +
-      '<div class="testi-who">' +
-        '<span class="testi-avatar" aria-hidden="true">' + escapeHtml(t.initial) + '</span>' +
-        '<span><span class="testi-name">' + escapeHtml(t.name) + '</span><br><span class="testi-role">' + escapeHtml(t.role) + '</span></span>' +
-      '</div>' +
-    '</article>';
+  tgrid.innerHTML = TESTI_VIDEOS.map(function (v) {
+    return '<button type="button" class="testi-video reveal" data-video="' + v.id + '" aria-label="Assistir ao depoimento de ' + escapeHtml(v.nome) + '">' +
+      '<span class="testi-thumb">' +
+        '<img src="' + v.thumb + '" alt="" width="480" height="270" loading="lazy" decoding="async">' +
+        '<span class="testi-play" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
+      '</span>' +
+      '<span class="testi-foot">' +
+        '<span class="av" aria-hidden="true">' + escapeHtml(v.inicial) + '</span>' +
+        '<span><span class="nm">' + escapeHtml(v.nome) + '</span><br><span class="lc">' + escapeHtml(v.local) + '</span></span>' +
+      '</span>' +
+    '</button>';
   }).join('');
+
+  /* ---------------- LIGHTBOX DE VÍDEO ---------------- */
+  var lb = document.getElementById('video-lb');
+  var lbFrame = document.getElementById('video-lb-frame');
+  var lbClose = document.getElementById('video-lb-close');
+  var lbOrigem = null;
+
+  function abrirVideo(id, origem) {
+    lbOrigem = origem || null;
+    lbFrame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+      '?autoplay=1&rel=0&modestbranding=1" title="Depoimento de cliente" ' +
+      'allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    lb.hidden = false;
+    travarScroll(true);
+    setTimeout(function () { lb.classList.add('in'); }, 20);
+    lbClose.focus();
+  }
+  function fecharVideo() {
+    lb.classList.remove('in');
+    travarScroll(false);
+    setTimeout(function () {
+      lb.hidden = true;
+      lbFrame.innerHTML = '';  // remove o iframe: o áudio precisa parar
+      if (lbOrigem) { lbOrigem.focus(); lbOrigem = null; }
+    }, 320);
+  }
+  tgrid.addEventListener('click', function (e) {
+    var card = e.target.closest('[data-video]');
+    if (card) abrirVideo(card.getAttribute('data-video'), card);
+  });
+  lbClose.addEventListener('click', fecharVideo);
+  lb.querySelector('[data-close]').addEventListener('click', fecharVideo);
 
   /* ---------------- REVEAL ON SCROLL ---------------- */
   if ('IntersectionObserver' in window) {
@@ -1408,19 +1660,6 @@ img{ max-width:100%; }
     });
   }
 
-  /* ---------------- SUBLINHADO DO H1 ---------------- */
-  if (!reduceMotion) {
-    setTimeout(function () {
-      var p = document.getElementById('underline-path');
-      if (!p) return;
-      p.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)';
-      p.style.strokeDashoffset = '0';
-    }, 700);
-  } else {
-    var up = document.getElementById('underline-path');
-    if (up) up.style.strokeDashoffset = '0';
-  }
-
   /* ---------------- MÁSCARA DE TELEFONE ---------------- */
   var tel = document.getElementById('f-tel');
   tel.addEventListener('input', function () {
@@ -1480,6 +1719,236 @@ img{ max-width:100%; }
       }, 2600);
     }, 700);
   });
+
+  /* ---------------- DESCRIÇÕES DOS SEGUROS (site oficial) ---------------- */
+  var SERVICES = {
+    'auto': { tag: 'Veículos', nome: 'Seguro Auto', texto: [
+      'Proteja seu veículo de danos que venham a sofrer em decorrência de colisão, incêndio, roubo e terceiros, em caso de responsabilidade do segurado. E tenha diversos benefícios que facilitarão seu cotidiano, como assistência 24h com serviço de guincho, retorno à domicílio e outros, seja o seu veículo um carro, moto, táxi, van, ou caminhão, estamos prontos para atender de forma personalizada.',
+      'Cotação rápida nas 17 principais seguradoras do mercado, com descontos e benefícios.'
+    ] },
+    'residencial': { tag: 'Patrimônio', nome: 'Seguro Residencial', texto: [
+      'Sua casa também merece atenção. Garanta já a segurança e proteção do seu lar e fique tranquilo em casos de imprevistos.',
+      'Tenha a proteção de prejuízos causados por: incêndio, raio, explosão, danos elétricos, roubo ou furto qualificado de bens, vendaval, tornado, granizo, quebra de vidros, placa solar, responsabilidade civil familiar, perda ou pagamento de aluguel, de acordo com as necessidades de cada cliente.',
+      'Oferecemos alguns benefícios exclusivos para você, como a assistência 24 horas, que possibilita os consertos de eletrodomésticos (linha branca e marrom), check-up residencial, limpeza de caixa de gordura, limpeza de caixa d\u2019água, limpeza de ar condicionado e muito mais. Indicado para todos os tipos de residências, inclusive de madeira, de veraneio e apartamento.'
+    ] },
+    'empresarial': { tag: 'Empresas', nome: 'Seguro Empresarial e Industrial', texto: [
+      'O seguro empresarial oferece coberturas específicas para seu empreendimento, seja ele empresas de pequeno, médio ou grande porte.',
+      'Uma empresa está sujeita a riscos e imprevistos. Para garantir que você, empreendedor, fique tranquilo, possuímos seguros patrimoniais para cada ramo de atividade, trazendo coberturas específicas de acordo com a necessidade do seu negócio. Coberturas principais: incêndios, raios e explosões. Outras coberturas: responsabilidade civil, roubo de bens, roubo de valores, quebra de vidros, danos elétricos, danos materiais ao imóvel, impacto de veículos, despesas com instalação, equipamentos gerais, dentre outros.'
+    ] },
+    'vida': { tag: 'Pessoas', nome: 'Seguro de Vida Individual', texto: [
+      'Aproveite o melhor da vida e tenha proteção financeira e familiar. Com ele você tem um seguro para usar em caso de afastamento de trabalho por doença ou acidente e receber as diárias que ficar afastado do trabalho até 365 dias*, cobertura para doenças graves onde você recebe o valor contratado para fazer o que quiser, cobertura de despesas médicas, hospitalares e odontológicas por acidente, cobertura de invalidez permanente total ou parcial por acidente e mais as coberturas de morte e assistência funeral.',
+      { nota: '*Verificar a disponibilidade da sua profissão ou ramo empresarial.' }
+    ] },
+    'viagem': { tag: 'Viagem', nome: 'Seguro Viagem', texto: [
+      'Na maioria dos países o seguro viagem é obrigatório; nos que não, vale a tranquilidade e proteção que o seguro proporciona.',
+      'Com o seguro viagem você conhece o mundo sem se preocupar com os imprevistos. Ao contratar, você conta com uma série de coberturas e assistências, como extravio e roubo de bagagens, despesas médicas, indenização por morte durante a viagem, e estar preparado para essas eventualidades pode evitar grandes transtornos, especialmente em viagens onde muitas vezes não há a cobertura dos planos de saúde.'
+    ] },
+    'saude': { tag: 'Saúde', nome: 'Plano de Saúde Corporativo e Individual', texto: [
+      'Planos de saúde por adesão ou empresarial, com as melhores operadoras do mercado. Contrate as melhores coberturas para sua família ou para os colaboradores de sua empresa e garanta a saúde e o bem-estar de todos.',
+      'Nunca se sabe o que pode acontecer e estar preparado para imprevistos é fundamental. O seguro saúde garante, através de uma ampla rede referenciada, cobertura médico-hospitalar para diferentes planos, atendendo a necessidade de cada cliente.',
+      'Ele é contratado no nome da empresa e pode envolver um pequeno grupo ou todos os funcionários, podendo ser descontado da folha de pagamento ou pago pela empresa.'
+    ] },
+    'previdencia': { tag: 'Futuro', nome: 'Previdência Privada', texto: [
+      'A previdência privada é um plano de aposentadoria que não está ligado ao INSS e serve de complemento para a previdência pública. É possível escolher o valor que você irá contribuir, e ele será proporcional ao valor que você irá receber após os anos de contribuição. Possuímos diversos planos de previdência para os mais diversos perfis e idades.',
+      'Garantir um futuro tranquilo é um desejo de todos.'
+    ] },
+    'bike': { tag: 'Mobilidade', nome: 'Seguro Bike', texto: [
+      'Seguro essencial para ciclistas amadores ou profissionais, com coberturas completas.',
+      'Tenha proteção da sua bike contra: roubo, furto qualificado, danos à bike, terceiros (responsabilidade civil), acidentes pessoais individual, assistência 24h e muito mais.'
+    ] },
+    'celular': { tag: 'Eletrônicos', nome: 'Seguro Celular', texto: [
+      'Tenha proteção do seu celular contra: roubo, furto, quebra acidental e submersão.'
+    ] },
+    'fianca': { tag: 'Imóveis', nome: 'Fiança Locatícia', texto: [
+      'O seguro de fiança locatícia dispensa a necessidade de o inquilino buscar um fiador ou depósito caução, com agilidade na aprovação, aceitação e garantia do recebimento de aluguéis para a imobiliária ou o proprietário. Cobre danos ao imóvel e ainda conta com benefícios extras.'
+    ] },
+    'condominio': { tag: 'Patrimônio', nome: 'Seguro Condomínio', texto: [
+      'Você sabia que o seguro é necessário para todo condomínio? (Novo Código Civil, artigo 1.346)',
+      'O seguro de condomínio traz coberturas e assistências para agilizar o seu dia a dia e auxiliar nos possíveis imprevistos, podendo abranger coberturas de raio, explosão, queda de aeronave, danos elétricos, vendaval, ciclone, granizo, roubo ou furto de bens, responsabilidade civil do condomínio, responsabilidade civil de guarda de veículos, portões e cancelas, responsabilidade civil do síndico, entre outras.'
+    ] },
+    'barco': { tag: 'Náutico', nome: 'Seguro de Barco', texto: [
+      'O seguro náutico cobre quase tudo. As cláusulas vão desde o roubo até o transporte terrestre.',
+      'Entre as coberturas: abalroamento (choque ou colisão da embarcação com outro obstáculo); responsabilidade civil do proprietário da embarcação, com coberturas para danos materiais e corporais; remoção de destroços para embarcações de terceiros, em caso de acidentes com a embarcação do segurado; e participação em competições de regata, para danos causados durante competições de vela.'
+    ] },
+    'eventos': { tag: 'Eventos', nome: 'Seguro Eventos', texto: [
+      'O seguro de eventos atende às necessidades de organizadores e convidados, uma vez que essas pessoas esperam que tudo saia perfeito no dia do evento. Ele ampara todos os participantes, em diversas situações, desde a montagem até a desmontagem do evento, como despesas por cancelamento do evento, cobertura de carros garagista, responsabilidade civil por fornecimento de bebidas e comestíveis, responsabilidade civil por danos morais, acidentes pessoais, dentre outros.',
+      'As coberturas podem ser personalizadas de acordo com o desejo de cada contratante, para garantir a tranquilidade do público participante. Pode ser contratado por pessoas físicas e empresas que atuem na prestação de serviços em eventos (organização, promoção ou exposição). Também é possível contratar mais de um evento por apólice, desde que já tenham um cronograma com as datas.'
+    ] },
+    'transporte': { tag: 'Logística', nome: 'Seguro Transporte de Carga', texto: [
+      'O seguro transporte oferece planos para atender as necessidades dos embarcadores dos mais diversos ramos, podendo contratar coberturas que garantem o seguro por roubo, assistência à carga, colisão, incêndio, raio e explosão, na água, no ar e na terra, em percursos nacionais e internacionais.',
+      'Cobre ainda encalhe, naufrágio ou soçobramento do navio ou embarcação, capotagem, colisão, tombamento ou descarrilamento de veículo terrestre, abalroamento, colisão ou contato do navio ou embarcação com qualquer objeto externo que não seja água, dentre outros. As coberturas são definidas conforme a atividade da empresa, o tipo de carga e o percurso percorrido.'
+    ] },
+    'odonto': { tag: 'Saúde', nome: 'Plano Odontológico', texto: [
+      'Um plano ideal para cada perfil: individual ou planos empresariais.',
+      'O plano odontológico pode ser contratado de forma individual ou empresarial. Este produto traz uma vasta rede referenciada de dentistas para sua utilização, com descontos e muitos benefícios. Os planos podem abranger consultas, urgência e emergência, radiologia, prevenção e orientação de higiene bucal, odontopediatria, periodontia, cirurgias e próteses, dependendo da sua necessidade e da necessidade dos colaboradores da sua empresa.'
+    ] },
+    'rc': { tag: 'Profissional', nome: 'Responsabilidade Civil e Profissional', texto: [
+      'O seguro Responsabilidade Civil e Profissional garante que você exerça a sua função com segurança. Ao adquirir, você estará transferindo o risco financeiro por eventual processo relacionado ao exercício da sua função para a seguradora.',
+      'Ele garante o reembolso das reclamações de clientes, consumidores e usuários que recorrem à justiça contra danos corporais, materiais ou morais causados pela prestação de serviços profissionais. As atividades cobertas sempre são aquelas que têm um código de ética ou um estatuto oficial estabelecidos pelos conselhos que regulamentam as respectivas profissões.'
+    ] },
+    'engenharia': { tag: 'Obras', nome: 'Riscos de Engenharia', texto: [
+      'O seguro Riscos de Engenharia protege a sua obra de acidentes que possam ocorrer durante a sua execução, como incêndios, roubo e furto qualificado. A proteção também é contra danos decorrentes de sinistros como vendaval e queda de granizo, entre outros, ou prejuízos causados a terceiros. Cobre também máquinas e equipamentos em fase de instalação e montagem, além do maquinário em operação. Pode ser contratado por pessoas físicas ou jurídicas que atuem na área da construção civil.',
+      'Responsabilidade Civil para Construções: este seguro ampara pessoas jurídicas ou físicas que sejam responsáveis civilmente a pagar indenizações por danos causados a terceiros, sob previsão contratual, garantindo tranquilidade para executar a obra.'
+    ] },
+    'agricolas': { tag: 'Máquinas', nome: 'Equipamentos Agrícolas', texto: [
+      'As máquinas e equipamentos de sua empresa não podem ficar sem proteção. O seguro evita que sua empresa, em caso de pane, roubo, furto e danos em máquinas, equipamentos de informática de pequeno e grande porte, máquinas agrícolas, entre outras, tenha prejuízo financeiro ou produtivo.'
+    ] },
+    'consorcio': { tag: 'Consórcio', nome: 'Consórcio', texto: [
+      'Casa, reforma, carro, moto, procedimentos estéticos, viagens e festas.',
+      'O consórcio é um dos meios que existem para se conseguir adquirir um bem ou serviço. Basicamente é um grupo de pessoas que se reúnem para formar uma poupança comum, que tem como objetivo final a aquisição de um bem ou serviço, como a compra ou reforma de casa, carro, moto, procedimento estético, viagem, festa de casamento ou debutante, através de um pagamento mensal com opção de lances e sorteios mensais.',
+      'Fazemos um estudo individual para aumentar as probabilidades de adquirir o bem o quanto antes.'
+    ] },
+    'financiamento': { tag: 'Crédito', nome: 'Financiamento Auto e Refinanciamento', texto: [
+      'Financiamos veículos novos e usados, com agilidade na aprovação de crédito. Novo e usado até 10 anos.',
+      'Aproveite nossas taxas diferenciadas para financiamentos e realize o sonho de adquirir ou trocar de carro, ou levante aquele dinheiro refinanciando seu automóvel quitado.'
+    ] },
+    'capitalizacao': { tag: 'Imóveis', nome: 'Capitalização Aluguel', texto: [
+      'Um tipo de caução que rende e, quando não é necessário usar, você recebe de volta.',
+      'O título de capitalização para alugar imóvel funciona como uma caução na qual, caso o inquilino fique inadimplente ou não cuide da conservação da propriedade, o proprietário pode requisitar o resgate e usá-lo para pagar as dívidas existentes.'
+    ] },
+    'vida-empresarial': { tag: 'Empresas', nome: 'Seguro de Vida Empresarial', texto: [
+      'O seguro de vida em grupo é caracterizado por custos menores, em virtude de tratar-se de apólice coletiva. É amplo e protege tanto os colaboradores como sócios e diretores. Garante o pagamento de indenização em casos de morte natural, morte acidental, invalidez permanente total e parcial por acidentes e antecipação especial por doença.',
+      'Essa modalidade de seguro é válida apenas para empresas, organizações ou sindicatos. Possuímos várias opções de planos e montamos o seu de acordo com a necessidade da sua empresa.'
+    ] }
+  };
+
+  /* ---------------- MODAL "VER MAIS" ---------------- */
+  var modal = document.getElementById('svc-modal');
+  var modalPanel = modal.querySelector('.svc-modal-panel');
+  var modalTag = document.getElementById('svc-modal-tag');
+  var modalTitle = document.getElementById('svc-modal-title');
+  var modalBody = document.getElementById('svc-modal-body');
+  var modalCta = document.getElementById('svc-modal-cta');
+  var modalClose = document.getElementById('svc-modal-close');
+  var modalOrigem = null;
+
+  function abrirModal(chave, card) {
+    var dados = SERVICES[chave];
+    if (!dados) return;
+    modalOrigem = card || null;
+
+    modalTag.textContent = dados.tag;
+    modalTitle.textContent = dados.nome;
+    modalBody.innerHTML = dados.texto.map(function (t) {
+      return typeof t === 'string'
+        ? '<p>' + escapeHtml(t) + '</p>'
+        : '<p class="note">' + escapeHtml(t.nota) + '</p>';
+    }).join('');
+    modalCta.href = 'https://api.whatsapp.com/send?phone=' + WA_PHONE + '&text=' +
+      encodeURIComponent('Olá! Gostaria de uma cotação de ' + dados.nome + '.');
+
+    modal.hidden = false;
+    travarScroll(true);
+
+    // o painel cresce a partir da posição do card clicado
+    if (card && !reduceMotion) {
+      var r = card.getBoundingClientRect();
+      var pr = modalPanel.getBoundingClientRect();
+      var dx = (r.left + r.width / 2) - (pr.left + pr.width / 2);
+      var dy = (r.top + r.height / 2) - (pr.top + pr.height / 2);
+      modalPanel.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(.86)';
+    }
+    setTimeout(function () {
+      modal.classList.add('in');
+      modalPanel.style.transform = '';
+    }, 20);
+    modalClose.focus();
+  }
+
+  function fecharModal() {
+    modal.classList.remove('in');
+    travarScroll(false);
+    setTimeout(function () {
+      modal.hidden = true;
+      modalPanel.style.transform = '';
+      if (modalOrigem) { modalOrigem.focus(); modalOrigem = null; }
+    }, 340);
+  }
+
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('[data-svc]');
+    if (!card) return;
+    e.preventDefault();
+    abrirModal(card.getAttribute('data-svc'), card);
+  });
+  modalClose.addEventListener('click', fecharModal);
+  modal.querySelector('[data-close]').addEventListener('click', fecharModal);
+
+  /* Esc fecha o que estiver aberto; Tab fica preso dentro do painel */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (!modal.hidden) fecharModal();
+      else if (!lb.hidden) fecharVideo();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    var caixa = !modal.hidden ? modalPanel : (!lb.hidden ? lb.querySelector('.video-lb-panel') : null);
+    if (!caixa) return;
+    var focaveis = caixa.querySelectorAll('a[href], button:not([disabled])');
+    if (!focaveis.length) return;
+    var primeiro = focaveis[0], ultimo = focaveis[focaveis.length - 1];
+    if (e.shiftKey && document.activeElement === primeiro) { e.preventDefault(); ultimo.focus(); }
+    else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primeiro.focus(); }
+  });
+
+  /* ---------------- ROLAGEM FLUIDA ---------------- */
+  /* Inércia só no desktop com mouse: em toque a rolagem nativa já é melhor. */
+  if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+    var alvo = window.scrollY;
+    var atual = window.scrollY;
+    var rodando = false;
+
+    function limite() {
+      return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    }
+    function passo() {
+      atual += (alvo - atual) * 0.12;
+      if (Math.abs(alvo - atual) < 0.5) {
+        atual = alvo;
+        window.scrollTo(0, atual);
+        rodando = false;
+        return;
+      }
+      window.scrollTo(0, atual);
+      requestAnimationFrame(passo);
+    }
+    function iniciar() {
+      if (rodando) return;
+      rodando = true;
+      requestAnimationFrame(passo);
+    }
+    function irPara(y) {
+      alvo = Math.min(Math.max(y, 0), limite());
+      iniciar();
+    }
+
+    window.addEventListener('wheel', function (e) {
+      if (scrollTravado || e.ctrlKey) return;
+      e.preventDefault();
+      if (!rodando) { atual = window.scrollY; alvo = window.scrollY; }
+      irPara(alvo + e.deltaY * (e.deltaMode === 1 ? 18 : 1));
+    }, { passive: false });
+
+    // teclado, barra de rolagem e âncoras nativas: ressincroniza o motor
+    window.addEventListener('scroll', function () {
+      if (rodando) return;
+      atual = alvo = window.scrollY;
+    }, { passive: true });
+    window.addEventListener('resize', function () { alvo = Math.min(alvo, limite()); });
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link || link.closest('[data-svc]')) return;
+      var id = link.getAttribute('href');
+      if (id === '#' || id.length < 2) return;
+      var destino = document.querySelector(id);
+      if (!destino) return;
+      e.preventDefault();
+      atual = window.scrollY;
+      irPara(window.scrollY + destino.getBoundingClientRect().top - (id === '#top' ? 0 : 96));
+      history.replaceState(null, '', id);
+    });
+  }
 
   /* ---------------- ANO NO RODAPÉ ---------------- */
   document.getElementById('ano').textContent = new Date().getFullYear();
