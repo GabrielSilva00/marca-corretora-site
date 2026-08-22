@@ -1648,6 +1648,14 @@ img{ max-width:100%; }
   }
   function pausarPrevias() { previas.forEach(function (q) { comandarPrevia(q, 'pauseVideo'); }); }
 
+  /* Quatro vídeos decodificando ao mesmo tempo faziam o vídeo do hero engasgar,
+     então as prévias ficam paradas enquanto o hero está na tela. */
+  var heroNaTela = true;
+  function ajustarPrevias() {
+    if (!heroNaTela && !document.hidden && lb.hidden) tocarPrevias();
+    else pausarPrevias();
+  }
+
   // 1 = tocando. Só aí o player substitui a miniatura.
   window.addEventListener('message', function (e) {
     if (e.origin.indexOf('youtube') === -1 || typeof e.data !== 'string') return;
@@ -1678,27 +1686,34 @@ img{ max-width:100%; }
         '&iv_load_policy=3&enablejsapi=1';
       q.addEventListener('load', function () {
         // handshake da API do YouTube: sem isso o player não manda eventos
-        comandarPrevia(q, 'playVideo');
         q.contentWindow.postMessage('{"event":"listening","id":' + i + ',"channel":"widget"}', '*');
+        ajustarPrevias();
       }, { once: true });
       caixa.appendChild(q);
       previas.push(q);
     });
+    ajustarPrevias();
   }
 
   // quem pediu menos movimento ou está economizando dados fica com a miniatura
   if (!reduceMotion && !economizaDados) {
-    // as prévias arrancam junto com o site e seguem rodando: quando o visitante
-    // chega na seção o depoimento já está no meio, em vez de começar ali.
-    // O load garante que elas não disputem banda com o vídeo do hero na abertura.
+    // As prévias sobem junto com o site e destravam assim que o visitante passa
+    // do hero, bem antes de a seção de depoimentos aparecer: ele chega com o
+    // vídeo já no meio, sem que nada dispute com o vídeo da abertura.
     if (document.readyState === 'complete') montarPrevias();
     else window.addEventListener('load', montarPrevias, { once: true });
 
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entradas) {
+        heroNaTela = entradas[0].isIntersecting;
+        ajustarPrevias();
+      }, { threshold: 0 }).observe(hero);
+    } else {
+      heroNaTela = false;
+    }
+
     // aba em segundo plano não precisa decodificar três vídeos
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) pausarPrevias();
-      else if (lb.hidden) tocarPrevias();
-    });
+    document.addEventListener('visibilitychange', ajustarPrevias);
   }
 
   /* ---------------- LIGHTBOX DE VÍDEO ---------------- */
@@ -1724,7 +1739,7 @@ img{ max-width:100%; }
     setTimeout(function () {
       lb.hidden = true;
       lbFrame.innerHTML = '';  // remove o iframe: o áudio precisa parar
-      tocarPrevias();
+      ajustarPrevias();
       if (lbOrigem) { lbOrigem.focus(); lbOrigem = null; }
     }, 320);
   }
