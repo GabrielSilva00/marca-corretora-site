@@ -201,9 +201,13 @@ img{ max-width:100%; }
 /* vídeo de fundo, ocupando a seção inteira */
 .hero-video{ position:absolute; inset:0; z-index:1; overflow:hidden; }
 .hero-video video{
+  position:absolute; inset:0;
   width:100%; height:100%; display:block;
   object-fit:cover; object-position:62% center;
 }
+/* o segundo vídeo só aparece durante o cruzamento do fim com o começo */
+#hero-video-b{ opacity:0; }
+.hero-video video{ transition:opacity .7s linear; }
 
 /* degradê da direita para a esquerda: escurece o lado do texto e libera o vídeo à direita */
 .hero-scrim{
@@ -832,6 +836,7 @@ img{ max-width:100%; }
 <section id="top" class="hero booting">
   <div class="hero-video" aria-hidden="true">
     <video id="hero-video" src="uploads/hero-familia.mp4" poster="uploads/hero-poster.jpg" autoplay muted playsinline preload="auto" tabindex="-1"></video>
+    <video id="hero-video-b" src="uploads/hero-familia.mp4" muted playsinline preload="auto" tabindex="-1"></video>
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
 
@@ -1367,7 +1372,10 @@ img{ max-width:100%; }
     }
   }
 
-  /* ---------------- VÍDEO DE FUNDO: mais lento e vai-e-volta ---------------- */
+  /* ---------------- VÍDEO DE FUNDO: mais lento e em laço contínuo ---------------- */
+  /* O arquivo tem só 2 keyframes em 141 quadros, então voltar quadro a quadro por
+     seek trava o decodificador. Em vez disso o vídeo roda sempre para frente e o
+     fim cruza com o começo numa segunda cópia, sem corte e sem engasgo. */
   if (heroVideo) {
     if (reduceMotion) {
       // quem pediu menos movimento vê apenas o poster
@@ -1375,41 +1383,90 @@ img{ max-width:100%; }
       heroVideo.pause();
     } else {
       var RATE = 0.7;
-      heroVideo.playbackRate = RATE;
-      var quadroVolta = 0, ultimoTs = 0;
+      var CRUZA = 0.7;                       // segundos de sobreposição
+      var heroVideoB = document.getElementById('hero-video-b');
+      var atualV = heroVideo;
+      var proximoV = heroVideoB;
+      var trocando = false;
+      var quadro = 0;
+      var ultimaRetomada = 0;
 
-      function tocarFrente() {
-        heroVideo.playbackRate = RATE;
-        var t = heroVideo.play();
+      function tocar(v) {
+        v.playbackRate = RATE;
+        var t = v.play();
         if (t && t.catch) t.catch(function () {});
       }
-      function pararVolta() {
-        if (quadroVolta) { cancelAnimationFrame(quadroVolta); quadroVolta = 0; }
+      [heroVideo, heroVideoB].forEach(function (v) {
+        // alguns navegadores zeram a velocidade ao (re)começar
+        v.addEventListener('play', function () { v.playbackRate = RATE; });
+        v.addEventListener('ratechange', function () {
+          if (v.playbackRate !== RATE) v.playbackRate = RATE;
+        });
+        // se o cruzamento não pegou a tempo, o vídeo recomeça em vez de parar
+        v.addEventListener('ended', function () {
+          if (v === atualV && !trocando) recomecarSozinho(v);
+        });
+      });
+
+      // sem a segunda cópia, cai no laço simples do próprio elemento
+      var temCruzamento = !!heroVideoB;
+      if (heroVideoB) {
+        heroVideoB.addEventListener('error', function () {
+          temCruzamento = false;
+          heroVideo.loop = true;
+        }, { once: true });
+      } else {
+        heroVideo.loop = true;
       }
-      function passoVolta(ts) {
-        var dt = ultimoTs ? (ts - ultimoTs) / 1000 : 0;
-        ultimoTs = ts;
-        var proximo = heroVideo.currentTime - dt * RATE;
-        if (proximo <= 0.05) {
-          pararVolta();
-          heroVideo.currentTime = 0;
-          tocarFrente();
-          return;
+
+      function recomecarSozinho(v) {
+        v.currentTime = 0;
+        tocar(v);
+      }
+
+      function trocar() {
+        // sem a segunda cópia pronta, recomeça na própria: corta, mas nunca para
+        if (proximoV.readyState < 3) { recomecarSozinho(atualV); return; }
+        trocando = true;
+        proximoV.currentTime = 0;
+        tocar(proximoV);
+        proximoV.style.opacity = '1';
+        atualV.style.opacity = '0';
+        setTimeout(function () {
+          var antigo = atualV;
+          atualV = proximoV;
+          proximoV = antigo;
+          antigo.pause();
+          antigo.currentTime = 0;
+          trocando = false;
+        }, CRUZA * 1000);
+      }
+
+      function vigia() {
+        quadro = requestAnimationFrame(vigia);
+        var v = atualV;
+        if (!temCruzamento || trocando || !v.duration || isNaN(v.duration)) return;
+        // quanto falta em tempo real, já considerando a velocidade reduzida
+        if ((v.duration - v.currentTime) / RATE <= CRUZA) trocar();
+        // se algo pausar o vídeo fora de uma troca, retoma (sem insistir a cada quadro)
+        else if (v.paused && !document.hidden && Date.now() - ultimaRetomada > 800) {
+          ultimaRetomada = Date.now();
+          tocar(v);
         }
-        heroVideo.currentTime = proximo;
-        quadroVolta = requestAnimationFrame(passoVolta);
       }
-      heroVideo.addEventListener('ended', function () {
-        heroVideo.pause();
-        ultimoTs = 0;
-        pararVolta();
-        quadroVolta = requestAnimationFrame(passoVolta);
-      });
+
       document.addEventListener('visibilitychange', function () {
-        if (document.hidden) { pararVolta(); heroVideo.pause(); }
-        else if (!quadroVolta) tocarFrente();
+        if (document.hidden) {
+          if (quadro) { cancelAnimationFrame(quadro); quadro = 0; }
+          atualV.pause();
+        } else {
+          tocar(atualV);
+          if (!quadro) quadro = requestAnimationFrame(vigia);
+        }
       });
-      tocarFrente();
+
+      tocar(heroVideo);
+      quadro = requestAnimationFrame(vigia);
     }
   }
 
