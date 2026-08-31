@@ -402,59 +402,75 @@ img{ max-width:100%; }
 .btn-outros.open .chevron{ transform:rotate(180deg); }
 
 /* ============ PILARES ============ */
-.pillars{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.pillars{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; counter-reset:pillar; }
 .pillar-card{
-  position:relative; padding:34px 30px; border-radius:22px; overflow:hidden;
-  background:var(--surface); border:1px solid var(--border); color:var(--text);
-  min-height:260px; display:flex; flex-direction:column;
-  transition:transform .3s, box-shadow .3s, border-color .3s;
+  position:relative; padding:0; border-radius:22px; overflow:hidden;
+  background:linear-gradient(160deg,#1B2A4A,#0F4C75); color:#fff;
+  min-height:300px; display:flex; flex-direction:column;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;
+  counter-increment:pillar;
 }
+.pillar-card:hover{ transform:translateY(-6px); box-shadow:0 30px 60px -20px rgba(11,18,37,.4); }
+/* Top accent bar */
 .pillar-card::before{
-  content:''; position:absolute; left:0; right:0; top:0; height:3px;
+  content:''; position:absolute; left:0; top:0; width:100%; height:4px;
   background:linear-gradient(90deg,#F5A623,#FFBE0B);
-  transform:scaleX(0); transform-origin:left; transition:transform .35s cubic-bezier(.2,.7,.2,1);
 }
-.pillar-card:hover{ transform:translateY(-4px); box-shadow:0 26px 48px -30px var(--shadow); border-color:rgba(245,166,35,.35); }
-.pillar-card:hover::before{ transform:scaleX(1); }
-.pc-num{
-  position:absolute; right:20px; top:2px;
-  font-family:'Outfit',sans-serif; font-weight:800; font-size:78px; line-height:1;
-  letter-spacing:-.05em; color:var(--text); opacity:.055; pointer-events:none;
+/* Large ghost number */
+.pillar-card::after{
+  content:counter(pillar, decimal-leading-zero);
+  position:absolute; right:-8px; top:-14px;
+  font-family:'Outfit',sans-serif; font-weight:900; font-size:120px; line-height:1;
+  letter-spacing:-.06em; color:rgba(255,255,255,.04); pointer-events:none;
 }
+.pc-inner{ padding:32px 28px; display:flex; flex-direction:column; flex:1; position:relative; z-index:1; }
 .pc-ico{
-  width:52px; height:52px; border-radius:14px; flex-shrink:0;
-  background:var(--navy); color:var(--brand-2);
+  width:56px; height:56px; border-radius:16px; flex-shrink:0;
+  background:rgba(245,166,35,.12); border:1px solid rgba(245,166,35,.2);
+  color:#F5A623;
   display:flex; align-items:center; justify-content:center;
-  margin-bottom:24px;
+  margin-bottom:auto;
+  transition:transform .3s, background .3s;
 }
-.pc-title{ font-family:'Outfit',sans-serif; font-weight:700; font-size:21px; margin:0 0 10px; letter-spacing:-.015em; }
-.pc-text{ margin:0; font-size:14.5px; line-height:1.6; color:var(--muted); }
+.pillar-card:hover .pc-ico{ transform:scale(1.08) rotate(-4deg); background:rgba(245,166,35,.2); }
+.pc-bottom{ padding:0 28px 28px; position:relative; z-index:1; }
+.pc-title{
+  font-family:'Outfit',sans-serif; font-weight:700; font-size:20px;
+  margin:0 0 8px; letter-spacing:-.015em; color:#fff;
+}
+.pc-text{ margin:0; font-size:14px; line-height:1.6; color:rgba(237,235,230,.6); }
 
-/* ============ PARCEIROS GRID ============ */
+/* ============ PARCEIROS ============ */
+.partners-sec{
+  padding:100px 0 80px;
+  background:linear-gradient(180deg,var(--bg) 0%,#f0ece5 100%);
+  overflow:hidden;
+}
 .partners-grid{
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px;
   max-width:1200px; margin:0 auto; padding:0 40px;
 }
 .partner-card{
-  background:var(--surface); border:1px solid var(--border); border-radius:18px;
+  background:#fff; border:1px solid rgba(27,42,74,.06); border-radius:18px;
   padding:20px; height:100px;
   display:flex; align-items:center; justify-content:center;
   transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;
   position:relative; overflow:hidden;
 }
-.partner-card::after{
-  content:''; position:absolute; inset:0; border-radius:18px;
-  background:radial-gradient(circle at 50% 50%,rgba(245,166,35,.08),transparent 70%);
-  opacity:0; transition:opacity .4s;
+.partner-card::before{
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,#F5A623,#FFBE0B);
+  transform:scaleX(0); transform-origin:center;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1);
 }
-.partner-card:hover{ transform:translateY(-4px); box-shadow:0 16px 32px -12px rgba(27,42,74,.12); border-color:rgba(245,166,35,.35); }
-.partner-card:hover::after{ opacity:1; }
+.partner-card:hover{ transform:translateY(-5px); box-shadow:0 20px 40px -14px rgba(27,42,74,.15); border-color:rgba(245,166,35,.3); }
+.partner-card:hover::before{ transform:scaleX(1); }
 .partner-card img{
   height:48px; width:auto; max-width:140px; object-fit:contain; display:block;
-  filter:grayscale(100%) opacity(.6);
-  transition:filter .4s;
+  filter:grayscale(100%) opacity(.45);
+  transition:filter .4s, transform .3s;
 }
-.partner-card:hover img{ filter:grayscale(0%) opacity(1); }
+.partner-card:hover img{ filter:grayscale(0%) opacity(1); transform:scale(1.06); }
 
 /* ============ DEPOIMENTOS ============ */
 .testi-grid{
@@ -871,37 +887,49 @@ img{ max-width:100%; }
 
     <div class="pillars">
       <div class="pillar-card reveal">
-        <span class="pc-num" aria-hidden="true">01</span>
-        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><polyline points="9 12 11 14 15 10"/></svg></span>
-        <h3 class="pc-title">Ética &amp; Transparência</h3>
-        <p class="pc-text">Integridade e credibilidade profissional em cada apólice apresentada.</p>
+        <div class="pc-inner">
+          <span class="pc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+        </div>
+        <div class="pc-bottom">
+          <h3 class="pc-title">Ética &amp; Transparência</h3>
+          <p class="pc-text">Integridade e credibilidade profissional em cada apólice apresentada.</p>
+        </div>
       </div>
       <div class="pillar-card reveal">
-        <span class="pc-num" aria-hidden="true">02</span>
-        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
-        <h3 class="pc-title">Atendimento Humano</h3>
-        <p class="pc-text">Soluções sob medida para cada perfil, com gente de verdade do outro lado.</p>
+        <div class="pc-inner">
+          <span class="pc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+        </div>
+        <div class="pc-bottom">
+          <h3 class="pc-title">Atendimento Humano</h3>
+          <p class="pc-text">Soluções sob medida para cada perfil, com gente de verdade do outro lado.</p>
+        </div>
       </div>
       <div class="pillar-card reveal">
-        <span class="pc-num" aria-hidden="true">03</span>
-        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-        <h3 class="pc-title">Agilidade</h3>
-        <p class="pc-text">Cotação rápida nas 17 seguradoras — resposta em minutos, não dias.</p>
+        <div class="pc-inner">
+          <span class="pc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+        </div>
+        <div class="pc-bottom">
+          <h3 class="pc-title">Agilidade</h3>
+          <p class="pc-text">Cotação rápida nas 17 seguradoras — resposta em minutos, não dias.</p>
+        </div>
       </div>
       <div class="pillar-card reveal">
-        <span class="pc-num" aria-hidden="true">04</span>
-        <span class="pc-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-        <h3 class="pc-title">Cobertura Nacional</h3>
-        <p class="pc-text">Baseados em Analândia (SP), atendendo em todo território brasileiro.</p>
+        <div class="pc-inner">
+          <span class="pc-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+        </div>
+        <div class="pc-bottom">
+          <h3 class="pc-title">Cobertura Nacional</h3>
+          <p class="pc-text">Baseados em Analândia (SP), atendendo em todo território brasileiro.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= PARCEIROS ================= -->
-<section id="parceiros" style="padding:100px 0 60px; background:var(--bg); overflow:hidden;">
+<section id="parceiros" class="partners-sec">
   <div class="wrap" style="margin-bottom:48px; padding:0 40px; text-align:center;">
-    <h2 class="h2 reveal" style="font-size:clamp(28px,4vw,48px);">As 17 principais seguradoras confiam na MARCA.</h2>
+    <h2 class="h2 reveal" style="font-size:clamp(28px,4vw,48px);">As 17 principais seguradoras<br>confiam na <span style="background:linear-gradient(120deg,#F5A623,#FFBE0B);-webkit-background-clip:text;background-clip:text;color:transparent;">MARCA</span>.</h2>
     <p class="reveal" style="color:var(--muted); max-width:520px; margin:16px auto 0; font-size:15px; line-height:1.6;">Trabalhamos com as maiores do mercado para encontrar a melhor cobertura pelo melhor preço.</p>
   </div>
 
